@@ -52,7 +52,7 @@
     <ul style="margin: 8px 0 0 0; padding-left: 16px">
       <% user.favorites.forEach(g => { %>
       <li style="margin-bottom: 4px">
-        <a class="a-arcade" href="/games/<%= g.slug %>"><%= g.name %></a>
+        <a class="a-arcade" href="/info/<%= g.slug %>"><%= g.name %></a>
       </li>
       <% }) %> <% if (!user.favorites.length) { %>
       <li>Aucun favori pour l'instant.</li>

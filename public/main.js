@@ -189,7 +189,7 @@ const AudioFX = (function () {
     e.preventDefault();
     var id = btn.getAttribute("data-fav");
     try {
-      const res = await fetch("/games/" + id + "/favorite", {
+      const res = await fetch("/info/" + id + "/favorite", {
         method: "POST",
         headers: { "X-Requested-With": "fetch" },
       });

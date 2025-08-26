@@ -20,7 +20,7 @@ module.exports.list = async (req, res) => {
 
 module.exports.searchRAWG = async (req, res) => {
   const q = (req.query.q || "").trim();
-  if (!q) return res.redirect("/games");
+  if (!q) return res.redirect("/info");
   try {
     await searchAndCache(q);
     const games = await findLocalByQuery(q);
@@ -46,6 +46,12 @@ module.exports.searchRAWG = async (req, res) => {
 
 module.exports.toggleFavorite = async (req, res) => {
   const gameId = req.params.id;
+
+  // Vérifier que l'ID est un ObjectId valide
+  if (!gameId || gameId.length !== 24 || !/^[0-9a-fA-F]{24}$/.test(gameId)) {
+    return res.status(400).json({ error: "ID de jeu invalide" });
+  }
+
   const user = await User.findById(req.session.userId);
   if (!user) return res.redirect("/auth/join");
   const idx = user.favorites.findIndex((g) => g.toString() === gameId);
@@ -61,7 +67,7 @@ module.exports.toggleFavorite = async (req, res) => {
 module.exports.show = async (req, res) => {
   const slug = req.params.slug;
   const game = await Game.findOne({ slug }).lean();
-  if (!game) return res.redirect("/games");
+  if (!game) return res.redirect("/info");
   let rawg = null;
   try {
     if (game.rawgId) {

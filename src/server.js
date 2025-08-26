@@ -73,7 +73,7 @@ app.use((req, res, next) => {
   if (!res.locals.page || typeof res.locals.page === "undefined") {
     if (req.path === "/") res.locals.page = "home";
     else if (req.path.startsWith("/dashboard")) res.locals.page = "dashboard";
-    else if (req.path.startsWith("/games")) res.locals.page = "info";
+    else if (req.path.startsWith("/info")) res.locals.page = "info";
     else if (req.path.startsWith("/tournaments"))
       res.locals.page = "tournaments";
     else if (req.path.startsWith("/arcade")) res.locals.page = "arcade";
@@ -85,7 +85,7 @@ app.use((req, res, next) => {
 
 app.use("/", indexRoutes);
 app.use("/auth", authRoutes(passport));
-app.use("/games", gameRoutes);
+app.use("/info", gameRoutes);
 app.use("/tournaments", tournamentRoutes);
 app.use("/accounts", accountsRoutes);
 

@@ -53,7 +53,7 @@ router.post(
           { upsert: true, new: true }
         );
       }
-      res.redirect("/games");
+      res.redirect("/info");
     } catch (e) {
       console.error(e);
       res.status(500).send("Import CSV impossible.");
@@ -87,7 +87,7 @@ router.post("/import/steam-fake", ensureAuth, async (req, res) => {
         { upsert: true, new: true }
       );
     }
-    res.redirect("/games?q=steam-");
+    res.redirect("/info?q=steam-");
   } catch (e) {
     console.error(e);
     res.status(500).send("Import Steam fake impossible.");
