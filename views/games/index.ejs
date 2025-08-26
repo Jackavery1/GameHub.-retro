@@ -1,5 +1,14 @@
 <h1 class="hero-title">Info</h1>
 
+<% if (typeof error !== 'undefined' && error) { %>
+<div
+  class="card mt-3"
+  style="background: var(--red); color: white; border: 2px solid #000"
+>
+  <p style="margin: 0; font-size: 0.9em"><%= error %></p>
+</div>
+<% } %>
+
 <form class="mt-3 flex gap-2" method="get" action="/info/search">
   <input name="q" value="<%= q %>" placeholder="Rechercher un jeu…" />
   <button class="btn-8" type="submit">RAWG</button>

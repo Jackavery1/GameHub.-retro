@@ -21,6 +21,20 @@ module.exports.list = async (req, res) => {
 module.exports.searchRAWG = async (req, res) => {
   const q = (req.query.q || "").trim();
   if (!q) return res.redirect("/info");
+
+  // Vérifier si RAWG_KEY est configuré
+  const rawgKey = process.env.RAWG_KEY || "4cde867900db46ee9dfbe6cd22f4a186";
+  if (!rawgKey) {
+    const games = await findLocalByQuery(q);
+    return res.render("games/index", {
+      title: "Info — " + q,
+      page: "info",
+      games,
+      q,
+      error: "Clé API RAWG non configurée. Résultats locaux uniquement.",
+    });
+  }
+
   try {
     await searchAndCache(q);
     const games = await findLocalByQuery(q);
@@ -31,9 +45,8 @@ module.exports.searchRAWG = async (req, res) => {
       q,
     });
   } catch (e) {
-    console.error(e.message);
+    console.error("Erreur RAWG:", e.message);
     const games = await findLocalByQuery(q);
-    // ✅ ici on enlève le “,;”
     res.render("games/index", {
       title: "Info — " + q,
       page: "info",

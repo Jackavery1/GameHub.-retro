@@ -4,7 +4,7 @@ const Game = require("../models/Game");
 const RAWG_BASE = "https://api.rawg.io/api";
 
 async function searchAndCache(q) {
-  const key = process.env.RAWG_KEY;
+  const key = process.env.RAWG_KEY || "4cde867900db46ee9dfbe6cd22f4a186";
   if (!key) throw new Error("RAWG_KEY missing");
   const { data } = await axios.get(`${RAWG_BASE}/games`, {
     params: { search: q, key, page_size: 12 },
@@ -39,7 +39,7 @@ async function findLocalByQuery(q) {
 }
 
 async function getGameDetails(id) {
-  const key = process.env.RAWG_KEY;
+  const key = process.env.RAWG_KEY || "4cde867900db46ee9dfbe6cd22f4a186";
   if (!key) throw new Error("RAWG_KEY missing");
   const [detailsRes, screenshotsRes] = await Promise.all([
     axios.get(`${RAWG_BASE}/games/${id}`, { params: { key } }),
