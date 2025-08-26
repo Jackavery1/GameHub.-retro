@@ -1,0 +1,96 @@
+<h1 class="hero-title">Dashboard</h1>
+<% if (user) { %>
+<div class="grid grid-3 mt-4">
+  <div class="card">
+    <h3>Profil</h3>
+    <div class="flex items-center gap-3">
+      <% if (user.avatarUrl) { %>
+      <img
+        src="<%= user.avatarUrl %>"
+        alt="avatar"
+        style="
+          width: 44px;
+          height: 44px;
+          border: 2px solid #000;
+          box-shadow: 4px 4px 0 #000;
+        "
+      />
+      <% } else { %>
+      <img
+        src="https://api.dicebear.com/7.x/pixel-art/svg?seed=<%= user._id %>"
+        alt="avatar"
+        style="
+          width: 44px;
+          height: 44px;
+          border: 2px solid #000;
+          box-shadow: 4px 4px 0 #000;
+        "
+      />
+      <% } %>
+      <div>
+        <p style="margin: 0">
+          <strong><%= user.name %></strong>
+          <span class="badge"><%= user.role %></span>
+        </p>
+        <p class="sub" style="margin: 2px 0 0 0"><%= user.email %></p>
+      </div>
+    </div>
+    <% if (hasSteam) { %>
+    <div class="mt-2">
+      <a class="btn-8" href="/auth/steam">Lier mon compte Steam</a>
+    </div>
+    <% } %>
+  </div>
+  <div class="card">
+    <h3>Comptes liés</h3>
+    <p class="sub">GOG / Epic / Itch.io / Amazon</p>
+    <a class="btn-8" href="/accounts/access">Gérer</a>
+  </div>
+
+  <div class="card">
+    <h3>Favoris</h3>
+    <ul style="margin: 8px 0 0 0; padding-left: 16px">
+      <% user.favorites.forEach(g => { %>
+      <li style="margin-bottom: 4px">
+        <a class="a-arcade" href="/games/<%= g.slug %>"><%= g.name %></a>
+      </li>
+      <% }) %> <% if (!user.favorites.length) { %>
+      <li>Aucun favori pour l'instant.</li>
+      <% } %>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Prochains matchs</h3>
+    <ul style="margin: 8px 0 0 0; padding-left: 16px">
+      <% upcoming.forEach(r => { %>
+      <li style="margin-bottom: 4px">
+        Tournoi <strong><%= r.tournament.title %></strong> — <%= new
+        Date(r.tournament.startsAt).toLocaleString('fr-FR') %>
+      </li>
+      <% }) %> <% if (!upcoming.length) { %>
+      <li>Aucun match planifié.</li>
+      <% } %>
+    </ul>
+  </div>
+</div>
+
+<% if (hasSteam) { %>
+<div class="card mt-4 steam-mini">
+  <h3>Steam — Jeux joués récemment</h3>
+  <% if (steamGames && steamGames.length) { %>
+  <div class="grid">
+    <% steamGames.forEach(g => { %>
+    <div class="card">
+      <div class="sub"><%= g.name %></div>
+      <div class="sub">Heures: <%= (g.playtime_forever/60).toFixed(1) %></div>
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <p class="sub">
+    Connecte Steam pour voir ta bibliothèque (profil public requis).
+  </p>
+  <% } %>
+</div>
+<% } %> <% } %>

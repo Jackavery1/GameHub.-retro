@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="<%= theme || 'megadrive' %>">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body
+    class="bg-grid"
+    data-page="<%= (typeof page !== 'undefined' && page) ? page : '' %>"
+  >
+    <%- include('partials/header') %>
+    <main class="wrap"><%- body %></main>
+    <%- include('partials/footer') %>
+  </body>
+</html>

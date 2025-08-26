@@ -1,0 +1,37 @@
+
+<h1 class="hero-title">Games</h1>
+<p class="sub">Sélectionne une console et lance des jeux dans le navigateur (ROMs perso ou contenus légaux).</p>
+
+<form class="card" data-arcade-filters style="margin:12px 0; display:flex; gap:8px; flex-wrap:wrap">
+  <select name="brand">
+    <option value="">Marque</option>
+    <option>Nintendo</option><option>Sega</option><option>PC/DOS</option><option>Flash</option>
+  </select>
+  <select name="year">
+    <option value="">Année</option>
+    <option>1980s</option><option>1990s</option><option>2000s</option>
+  </select>
+  <select name="fav">
+    <option value="">Tous</option><option value="1">Favoris</option>
+  </select>
+</form>
+
+<div class="grid grid-3">
+  <div class="card console-card" data-brand="Nintendo" data-era="1980s" data-fav="1" style="border-color:#e74; background:linear-gradient(#332018,#1a0d09)">
+    <h3>NES</h3>
+    <p class="sub">JSNES intégré — charge une ROM locale.</p>
+    <a class="btn-8" href="/arcade/nes">▶ Ouvrir</a>
+  </div>
+
+  <div class="card console-card" data-brand="Flash" data-era="2000s" data-fav="0" style="border-color:#ff7ab6; background:linear-gradient(#300e1f,#17080f)">
+    <h3>Flash</h3>
+    <p class="sub">Ruffle (WASM) — charge un SWF local.</p>
+    <a class="btn-8" href="/arcade/flash">▶ Ouvrir</a>
+  </div>
+
+  <div class="card console-card" data-brand="PC/DOS" data-era="1990s" data-fav="0" style="border-color:#ffd166; background:linear-gradient(#3a2a0f,#1c1408)">
+    <h3>MS‑DOS</h3>
+    <p class="sub">Internet Archive (EM‑DOSBox) — intégration officielle.</p>
+    <a class="btn-8" href="/arcade/dos">▶ Ouvrir</a>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<h1 class="hero-title">
+  <%= t.title %> <span class="sub">— <%= t.game?.name %></span>
+</h1>
+<p class="sub">
+  Débute le <%= new Date(t.startsAt).toLocaleString('fr-FR') %> — Status:
+  <span class="badge"><%= t.status %></span>
+</p>
+<div class="grid grid-3 mt-3">
+  <div class="card">
+    <h3>Participants</h3>
+    <ul>
+      <% regs.forEach(r => { %>
+      <li>👾 <%= r.user?.name %></li>
+      <% }) %><% if (!regs.length) { %>
+      <li>Personne (encore) — rejoins !</li>
+      <% } %>
+    </ul>
+    <% if (currentUserId) { %>
+    <form
+      method="post"
+      action="/tournaments/<%= t._id %>/register"
+      class="mt-2"
+    >
+      <button class="btn-8" type="submit">S'inscrire</button>
+    </form>
+    <% } %><% if (currentUserId && currentUserRole === 'admin' || currentUserId
+    && String(t.createdBy) === String(currentUserId)) { %>
+    <form method="post" action="/tournaments/<%= t._id %>/seed" class="mt-2">
+      <button class="badge" type="submit">Générer le bracket</button>
+    </form>
+    <% } %>
+  </div>
+  <div class="card bracket-wrap" style="grid-column: span 2">
+    <h3>Bracket</h3>
+    <% if (!rounds.length) { %>
+    <p>
+      Aucun match pour l'instant. Générez le bracket une fois les joueurs
+      inscrits.
+    </p>
+    <% } else { %><svg id="bracketLines"></svg>
+    <div class="bracket">
+      <% rounds.forEach((round,rindex)=>{ %>
+      <div class="round">
+        <h4>Round <%= rindex + 1 %></h4>
+        <% round.forEach((m)=>{ %>
+        <div
+          class="match"
+          data-id="<%= m._id %>"
+          data-round="<%= m.round %>"
+          data-next="<%= m.nextMatch || '' %>"
+        >
+          <h4>Match <%= m.position %></h4>
+          <div>
+            🅰️ <%= m.playerA?.user?.name || '— BYE —' %> (<%= m.scoreA ?? '-'
+            %>)
+          </div>
+          <div>
+            🅱️ <%= m.playerB?.user?.name || '— BYE —' %> (<%= m.scoreB ?? '-'
+            %>)
+          </div>
+          <% if ((currentUserRole === 'admin' || String(t.createdBy) ===
+          String(currentUserId)) && m.playerA && m.playerB) { %>
+          <form
+            method="post"
+            action="/tournaments/matches/<%= m._id %>/report"
+            class="mt-2 flex gap-2"
+          >
+            <input
+              type="number"
+              name="scoreA"
+              min="0"
+              placeholder="Score A"
+              required
+            /><input
+              type="number"
+              name="scoreB"
+              min="0"
+              placeholder="Score B"
+              required
+            /><button class="badge" type="submit">Reporter</button>
+          </form>
+          <% } %><% if (m.winner) { %>
+          <div class="badge mt-2">Gagnant: <%= m.winner?.user?.name %></div>
+          <% } %>
+        </div>
+        <% }) %>
+      </div>
+      <% }) %>
+    </div>
+    <% } %>
+  </div>
+</div>

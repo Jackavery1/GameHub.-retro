@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Déconnexion — GameHub Retro (inline)</title>
+
+    <!-- Tailwind (ok pour backup/dev) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pixel fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS essentiel intégré (extrait minimal de styles.css + helpers) -->
+    <style>
+      :root {
+        --fg: #e8f0ff;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        color: var(--fg);
+        font-family: "Press Start 2P", system-ui, -apple-system, Segoe UI,
+          Roboto, sans-serif;
+        background: #000;
+        line-height: 1.45;
+      }
+      .scanlines {
+        position: relative;
+      }
+      .scanlines::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          rgba(0, 0, 0, 0.08) 1px,
+          transparent 2px
+        );
+        pointer-events: none;
+        z-index: 10;
+      }
+      /* Bouton style cartouche (extrait) */
+      .btn8 {
+        background: linear-gradient(#fff, #cfd9ff);
+        color: #000;
+        border: 4px solid #000;
+        box-shadow: 6px 6px 0 #000;
+        padding: 0.75rem 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        transition: transform 0.08s;
+      }
+      .btn8:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0 #000;
+      }
+      .btn8:active {
+        transform: none;
+        box-shadow: 4px 4px 0 #000;
+      }
+
+      @keyframes cloudMove {
+        0% {
+          left: -200px;
+        }
+        100% {
+          left: 100vw;
+        }
+      }
+      .cloud-move {
+        animation: cloudMove 25s linear infinite;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center">
+    <div
+      class="relative w-[920px] max-w-[92vw] h-[700px] bg-gradient-to-br from-gray-800 to-gray-900 border-8 border-gray-700 rounded-3xl shadow-2xl overflow-hidden"
+    >
+      <!-- LED décoratives -->
+      <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
+        <div
+          class="w-5 h-5 bg-gray-600 border-2 border-gray-800 rounded-full shadow-inner"
+        ></div>
+        <div
+          class="w-5 h-5 bg-red-500 border-2 border-red-700 rounded-full shadow-inner"
+        ></div>
+        <div
+          class="w-5 h-5 bg-gray-600 border-2 border-gray-800 rounded-full shadow-inner"
+        ></div>
+      </div>
+
+      <!-- Écran -->
+      <div class="absolute inset-8 rounded-2xl overflow-hidden scanlines">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-blue-300 via-blue-200 to-green-200"
+        ></div>
+
+        <!-- Message -->
+        <div
+          class="absolute top-6 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-lg text-sm z-20 border-2 border-white"
+        >
+          Vous êtes bien déconnecté·e
+        </div>
+
+        <!-- Nuages -->
+        <div
+          class="absolute top-16 left-0 w-20 h-12 bg-white rounded-full opacity-90 cloud-move"
+          style="animation-delay: 3s"
+        ></div>
+        <div
+          class="absolute top-32 right-0 w-24 h-16 bg-white rounded-full opacity-90 cloud-move"
+          style="animation-delay: 7s"
+        ></div>
+        <div
+          class="absolute top-8 left-1/4 w-16 h-10 bg-white rounded-full opacity-90 cloud-move"
+          style="animation-delay: 5s"
+        ></div>
+
+        <!-- Prairie -->
+        <div
+          class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-green-600 via-green-500 to-green-400"
+        >
+          <div class="absolute bottom-0 left-0 right-0 h-8 bg-green-700"></div>
+          <div class="absolute bottom-8 left-0 right-0 h-6 bg-green-600"></div>
+          <div class="absolute bottom-14 left-0 right-0 h-4 bg-green-500"></div>
+        </div>
+
+        <!-- CTA -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
+          <a id="btnReturn" href="/arcade" class="btn8">⟵ Retour aux jeux</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const btn = document.getElementById("btnReturn");
+      btn?.addEventListener("click", () => {
+        btn.classList.add("translate-y-0.5");
+        setTimeout(() => btn.classList.remove("translate-y-0.5"), 120);
+      });
+    </script>
+  </body>
+</html>

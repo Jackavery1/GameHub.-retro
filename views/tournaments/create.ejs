@@ -1,0 +1,20 @@
+<h1 class="hero-title">Créer un tournoi</h1>
+<form method="post" class="grid" style="max-width: 520px">
+  <label>Titre<input name="title" required /></label
+  ><label
+    >Jeu<select name="gameId" required>
+      <% games.forEach(g => { %>
+      <option value="<%= g._id %>"><%= g.name %></option>
+      <% }) %>
+    </select></label
+  ><label
+    >Date/heure<input type="datetime-local" name="startsAt" required /></label
+  ><label
+    >Max joueurs<input
+      name="maxPlayers"
+      type="number"
+      min="2"
+      step="1"
+      value="8" /></label
+  ><button class="btn-8" type="submit">Créer</button>
+</form>

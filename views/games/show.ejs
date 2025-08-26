@@ -1,0 +1,91 @@
+<h1 class="hero-title"><%= game.name %></h1>
+
+<div class="grid" style="grid-template-columns: 320px 1fr">
+  <div class="card">
+    <% if (game.cover) { %>
+    <img
+      src="<%= game.cover %>"
+      alt="<%= game.name %>"
+      style="width: 100%; border: 2px solid #000"
+    />
+    <% } %>
+    <div class="mt-2">
+      <% (game.genres||[]).forEach(gn => { %><span class="badge"><%= gn %></span
+      ><% }) %>
+    </div>
+    <form
+      class="mt-2"
+      method="post"
+      action="/games/<%= game._id %>/favorite"
+      title="Favori / retirer"
+    >
+      <button class="btn-8" type="submit">
+        <span class="icon icon-star"></span>
+      </button>
+    </form>
+  </div>
+
+  <div class="card">
+    <% if (rawg && rawg.details) { %>
+    <h3>Détails</h3>
+    <p class="sub">
+      <strong>Sortie:</strong> <%= rawg.details.released || '—' %> —
+      <strong>Note:</strong> <%= rawg.details.metacritic || '—' %>
+    </p>
+    <% if (rawg.details.developers && rawg.details.developers.length) { %>
+    <p class="sub">
+      <strong>Dev:</strong> <%= rawg.details.developers.map(d=>d.name).join(',
+      ') %>
+    </p>
+    <% } %> <% if (rawg.details.publishers && rawg.details.publishers.length) {
+    %>
+    <p class="sub">
+      <strong>Éditeur:</strong> <%=
+      rawg.details.publishers.map(d=>d.name).join(', ') %>
+    </p>
+    <% } %>
+    <h3 class="mt-3">Plateformes</h3>
+    <p class="sub">
+      <% (rawg.details.platforms||[]).forEach(p => { %>
+      <span class="badge"><%= p.platform.name %></span>
+      <% }) %>
+    </p>
+    <% if (rawg.details.description_raw) { %>
+    <h3 class="mt-3">Description</h3>
+    <p style="white-space: pre-wrap">
+      <%= rawg.details.description_raw.slice(0,1500) %>
+    </p>
+    <% } %> <% if (rawg.screenshots && rawg.screenshots.length) { %>
+    <h3 class="mt-3">Screenshots (clique pour agrandir)</h3>
+    <div class="grid" style="grid-template-columns: repeat(3, 1fr)">
+      <% rawg.screenshots.forEach(s => { %>
+      <img
+        class="shot"
+        src="<%= s.image %>"
+        alt="shot"
+        style="width: 100%; border: 2px solid #000; cursor: zoom-in"
+      />
+      <% }) %>
+    </div>
+    <% } %> <% } else { %>
+    <p class="sub">Aucun détail RAWG disponible.</p>
+    <% } %>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img id="lightboxImg" alt="screenshot" />
+</div>
+<script>
+  (function () {
+    var lb = document.getElementById("lightbox"),
+      img = document.getElementById("lightboxImg");
+    document.querySelectorAll(".shot").forEach((s) => {
+      s.addEventListener("click", () => {
+        img.src = s.src;
+        lb.classList.add("open");
+      });
+    });
+    lb.addEventListener("click", () => lb.classList.remove("open"));
+  })();
+</script>

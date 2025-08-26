@@ -1,0 +1,103 @@
+<div class="hero-bg">
+  <div class="hero-content">
+    <h1 class="hero-title">Comptes liés</h1>
+    <p class="sub">Connexion à vos comptes de jeux.</p>
+  </div>
+</div>
+
+<style>
+  .accounts-card {
+    font-size: 0.85em;
+  }
+  .accounts-card h3 {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+  }
+  .accounts-card .sub {
+    font-size: 0.75em;
+    line-height: 1.3;
+    margin: 6px 0;
+  }
+  .accounts-card .btn-8 {
+    font-size: 0.7em;
+    padding: 6px 10px;
+  }
+  .accounts-card input {
+    font-size: 0.8em;
+    padding: 4px 6px;
+  }
+  .accounts-card label {
+    font-size: 0.75em;
+    margin-bottom: 4px;
+  }
+</style>
+
+<div class="grid grid-3 mt-3">
+  <% ['steam','gog','epic','itchio','amazon'].forEach(p => { %>
+  <div class="card accounts-card">
+    <h3 style="text-transform: uppercase"><%= p %></h3>
+
+    <% if (accounts[p]) { %>
+    <p class="sub">
+      Lié en tant que <strong><%= accounts[p].handle || '—' %></strong>
+    </p>
+    <% if (p === 'steam' && accounts[p].isOAuth) { %>
+    <p class="sub" style="color: var(--green); font-size: 0.8em">
+      ✓ Connexion OAuth Steam active
+    </p>
+    <form method="post" action="/accounts/unlink">
+      <input type="hidden" name="provider" value="<%= p %>" />
+      <button class="btn-8" type="submit">✖ Déconnecter Steam</button>
+    </form>
+    <% } else { %>
+    <form method="post" action="/accounts/unlink">
+      <input type="hidden" name="provider" value="<%= p %>" />
+      <button class="btn-8" type="submit">✖ Unlink</button>
+    </form>
+    <% } %> <% } else { %> <% if (p === 'steam' && hasSteam) { %>
+    <p class="sub">Connectez votre compte Steam via OAuth</p>
+    <a
+      href="/auth/steam"
+      class="btn-8"
+      style="display: inline-block; text-decoration: none"
+    >
+      🎮 Connecter Steam
+    </a>
+    <% } else if (p === 'steam' && !hasSteam) { %>
+    <p class="sub" style="color: var(--muted)">Steam OAuth non configuré</p>
+    <% } else { %>
+    <form
+      method="post"
+      action="/accounts/link"
+      class="grid"
+      style="max-width: 320px"
+    >
+      <input type="hidden" name="provider" value="<%= p %>" />
+      <label
+        >Handle / ID public
+        <input name="handle" placeholder="ton pseudo public" />
+      </label>
+      <button class="btn-8" type="submit">✔ Link</button>
+    </form>
+    <% } %> <% } %>
+
+    <hr style="margin: 10px 0; border: 0; border-top: 2px solid #000" />
+    <form
+      class="grid"
+      method="post"
+      action="/games/import/csv"
+      enctype="multipart/form-data"
+    >
+      <label
+        >Importer CSV/JSON exporté
+        <input type="file" name="file" accept=".csv,.json" required />
+      </label>
+      <button class="badge" type="submit">↺ Importer dans la DB</button>
+      <p class="sub">
+        Utilise l’export officiel du store (quand dispo). Le CSV simple est
+        supporté par défaut.
+      </p>
+    </form>
+  </div>
+  <% }) %>
+</div>

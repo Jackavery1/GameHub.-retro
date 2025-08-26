@@ -1,0 +1,115 @@
+<h1 class="hero-title">NES Emulator</h1>
+<div class="card">
+  <p class="sub">Joue aux classiques NES directement dans le navigateur !</p>
+
+  <!-- Sélection de jeux intégrés -->
+  <div class="game-selector">
+    <h3>🎮 Jeux disponibles</h3>
+    <div class="game-grid">
+      <button class="game-btn" data-rom="tetris" data-name="Tetris">
+        <span class="game-icon">🧩</span>
+        <span class="game-name">Tetris</span>
+      </button>
+      <button class="game-btn" data-rom="snake" data-name="Snake">
+        <span class="game-icon">🐍</span>
+        <span class="game-name">Snake</span>
+      </button>
+      <button class="game-btn" data-rom="pong" data-name="Pong">
+        <span class="game-icon">🏓</span>
+        <span class="game-name">Pong</span>
+      </button>
+      <button class="game-btn" data-rom="breakout" data-name="Breakout">
+        <span class="game-icon">🧱</span>
+        <span class="game-name">Breakout</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Zone de jeu -->
+  <div class="game-area">
+    <canvas
+      id="nesScreen"
+      width="256"
+      height="240"
+      style="
+        border: 4px solid #000;
+        image-rendering: pixelated;
+        width: 512px;
+        height: 480px;
+        background: #000;
+      "
+    ></canvas>
+    <div class="game-controls">
+      <button class="btn-8" id="btnPause">⏸ Pause</button>
+      <button class="btn-8" id="btnResume">▶ Resume</button>
+      <button class="btn-8" id="btnReset">↺ Reset</button>
+      <button class="btn-8" id="btnFullscreen">⛶ Fullscreen</button>
+    </div>
+  </div>
+
+  <!-- Instructions -->
+  <div class="instructions">
+    <h3>🎮 Contrôles</h3>
+    <p>
+      <strong>Flèches</strong> : Déplacer | <strong>Espace</strong> : Action |
+      <strong>Entrée</strong> : Start | <strong>P</strong> : Pause
+    </p>
+  </div>
+</div>
+
+<style>
+  .game-selector {
+    margin-bottom: 20px;
+  }
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .game-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    background: var(--tile);
+    border: 2px solid #000;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .game-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 #000;
+  }
+  .game-btn.active {
+    background: var(--neon);
+    color: #000;
+  }
+  .game-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+  .game-name {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .game-area {
+    text-align: center;
+    margin: 20px 0;
+  }
+  .game-controls {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .instructions {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+  }
+</style>
+
+<script type="module" src="/public/emulators/nes.js"></script>

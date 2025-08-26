@@ -1,0 +1,21 @@
+<div class="flex items-center justify-between">
+  <h1 class="hero-title">Tournaments</h1>
+  <% if (currentUserRole === 'admin') { %>
+  <a class="btn-8" href="/tournaments/new">+ Nouveau</a>
+  <% } %>
+</div>
+<div class="grid grid-3 mt-4">
+  <% tournaments.forEach(t => { %>
+  <div class="card">
+    <h3>
+      <a class="a-arcade" href="/tournaments/<%= t._id %>"><%= t.title %></a>
+    </h3>
+    <p class="sub">
+      <%= t.game?.name %> — <%= new Date(t.startsAt).toLocaleString('fr-FR') %>
+    </p>
+    <span class="badge"><%= t.status %></span>
+  </div>
+  <% }) %><% if (!tournaments.length) { %>
+  <p>Pas encore de tournoi.</p>
+  <% } %>
+</div>

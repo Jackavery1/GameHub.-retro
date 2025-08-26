@@ -1,0 +1,54 @@
+<header class="nav">
+  <div class="wrap">
+    <a class="brand a-arcade" href="/"
+      >GAMEHUB<span style="color: var(--magenta)">•RETRO</span></a
+    >
+
+    <button class="nav-toggle" id="navToggle"><span></span></button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="/arcade">🎮 Games</a>
+      <a href="/games">Info</a>
+      <a href="/tournaments"
+        ><span class="icon icon-trophy"></span> Tournaments</a
+      >
+
+      <% if (currentUserId) { %>
+      <a href="/dashboard"><span class="icon icon-user"></span> Dashboard</a>
+
+      <form
+        method="post"
+        action="/auth/logout"
+        class="inline"
+        style="display: inline"
+      >
+        <button class="btn-icon" type="submit" title="Logout">
+          <span class="icon icon-logout"></span>
+        </button>
+      </form>
+      <% } else { %>
+      <a href="/auth/join" class="btn-8">Join</a>
+      <% } %>
+      <button id="themeBtn" class="btn-icon" title="Thème">
+        <span class="icon icon-gear"></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<div
+  id="themeMenu"
+  style="display: none; position: fixed; right: 10px; top: 52px; z-index: 25"
+  class="card"
+>
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px">
+    <button class="badge" data-theme="gameboy">GameBoy</button>
+    <button class="badge" data-theme="gbc">GBC</button>
+    <button class="badge" data-theme="nes">NES</button>
+    <button class="badge" data-theme="snes">SNES</button>
+    <button class="badge" data-theme="megadrive">MegaDrive</button>
+    <button class="badge" data-theme="ps1">PS1</button>
+    <button class="badge" data-theme="n64">N64</button>
+    <button class="badge" data-theme="c64">C64</button>
+  </div>
+</div>

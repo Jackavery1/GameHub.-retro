@@ -1,0 +1,39 @@
+
+<div class="card auth-card">
+  <div class="tabs">
+    <button class="btn-8 tab" data-tab="login">Login</button>
+    <button class="btn-8 tab" data-tab="signup">Sign up</button>
+  </div>
+
+  <div id="pane-login">
+    <form class="grid" method="post" action="/auth/login">
+      <label>Email<input name="email" type="email" required></label>
+      <label>Mot de passe<input name="password" type="password" required></label>
+      <button class="btn-8" type="submit">▶ Login</button>
+    </form>
+  </div>
+
+  <div id="pane-signup" style="display:none">
+    <form class="grid" method="post" action="/auth/register">
+      <label>Nom<input name="name" required></label>
+      <label>Email<input name="email" type="email" required></label>
+      <label>Mot de passe<input name="password" type="password" required></label>
+      <button class="btn-8" type="submit">▶ Create account</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var tabs=document.querySelectorAll('.tab');
+    var login=document.getElementById('pane-login');
+    var signup=document.getElementById('pane-signup');
+    tabs.forEach(function(t){
+      t.addEventListener('click', function(){
+        var target = t.getAttribute('data-tab');
+        if(target==='login'){ login.style.display='block'; signup.style.display='none'; }
+        else { login.style.display='none'; signup.style.display='block'; }
+      });
+    });
+  })();
+</script>

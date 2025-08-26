@@ -1,0 +1,44 @@
+<div class="home-hero">
+  <div class="crt">
+    <div class="crt-frame"></div>
+    <div class="crt-screen">
+      <!-- décor 8-bit qui défile -->
+      <div class="bg-parallax">
+        <div class="layer layer-far"></div>
+        <div class="layer layer-mid"></div>
+        <div class="layer layer-near"></div>
+      </div>
+
+      <!-- personnage pixel (CSS) -->
+      <div class="hero-char" id="heroChar">
+        <div class="px px-hair"></div>
+        <div class="px px-head"></div>
+        <div class="px px-eye"></div>
+        <div class="px px-body"></div>
+        <div class="px px-arm-l"></div>
+        <div class="px px-arm-r"></div>
+        <div class="px px-leg-l"></div>
+        <div class="px px-leg-r"></div>
+      </div>
+
+      <!-- bouton Start -->
+      <form method="get" action="/arcade" class="start-wrap">
+        <button class="btn-8 btn-start" type="submit" id="startBtn">
+          ▶ Start
+        </button>
+      </form>
+
+      <!-- logo méga drive + led (décor) -->
+      <div class="megadrive-deco">
+        <div class="md-slot"></div>
+        <div class="md-led" id="mdLed"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sub hint">
+    Appuie sur <kbd>Entrée</kbd> ou clique sur <strong>Start</strong>
+  </p>
+</div>
+
+<script type="module" src="/public/home.js"></script>

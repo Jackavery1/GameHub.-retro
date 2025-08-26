@@ -1,0 +1,176 @@
+<h1 class="hero-title">Flash Games (Ruffle)</h1>
+<div class="card">
+  <p class="sub">
+    Jeux Flash classiques jouables directement dans le navigateur !
+  </p>
+
+  <!-- Sélection de jeux Flash -->
+  <div class="game-selector">
+    <h3>🎮 Jeux Flash disponibles</h3>
+    <div class="game-grid">
+      <button
+        class="game-btn"
+        data-swf="https://ruffle.rs/demo/starling.swf"
+        data-name="Starling Demo"
+      >
+        <span class="game-icon">⭐</span>
+        <span class="game-name">Starling Demo</span>
+      </button>
+      <button
+        class="game-btn"
+        data-swf="https://ruffle.rs/demo/papervision3d.swf"
+        data-name="Papervision3D"
+      >
+        <span class="game-icon">📄</span>
+        <span class="game-name">Papervision3D</span>
+      </button>
+      <button
+        class="game-btn"
+        data-swf="https://ruffle.rs/demo/away3d.swf"
+        data-name="Away3D"
+      >
+        <span class="game-icon">🎯</span>
+        <span class="game-name">Away3D</span>
+      </button>
+      <button
+        class="game-btn"
+        data-swf="https://ruffle.rs/demo/box2d.swf"
+        data-name="Box2D"
+      >
+        <span class="game-icon">📦</span>
+        <span class="game-name">Box2D</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Zone de jeu -->
+  <div class="game-area">
+    <div
+      id="player"
+      style="
+        width: 640px;
+        height: 480px;
+        border: 4px solid #000;
+        background: #000;
+        margin: 0 auto;
+      "
+    ></div>
+    <div class="game-controls">
+      <button class="btn-8" id="btnFullscreen">⛶ Fullscreen</button>
+      <button class="btn-8" id="btnReload">↻ Reload</button>
+    </div>
+  </div>
+
+  <!-- Instructions -->
+  <div class="instructions">
+    <h3>🎮 Instructions</h3>
+    <p>
+      Sélectionne un jeu ci-dessus pour commencer. Les contrôles varient selon
+      le jeu.
+    </p>
+  </div>
+</div>
+
+<style>
+  .game-selector {
+    margin-bottom: 20px;
+  }
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .game-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    background: var(--tile);
+    border: 2px solid #000;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .game-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 #000;
+  }
+  .game-btn.active {
+    background: var(--neon);
+    color: #000;
+  }
+  .game-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+  .game-name {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .game-area {
+    text-align: center;
+    margin: 20px 0;
+  }
+  .game-controls {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .instructions {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+  }
+</style>
+
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script>
+  (function () {
+    const container = document.getElementById("player");
+    let r = window.RufflePlayer.newest();
+    let player = r.createPlayer();
+    container.appendChild(player);
+
+    // Gestion des boutons de jeux
+    document.querySelectorAll(".game-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const swfUrl = btn.dataset.swf;
+        const gameName = btn.dataset.name;
+
+        // Mise à jour visuelle
+        document
+          .querySelectorAll(".game-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        // Chargement du jeu
+        player.load({ url: swfUrl });
+
+        // Feedback sonore
+        if (typeof AudioFX !== "undefined") {
+          AudioFX.bleep(1200, 0.08, "square", 0.05);
+        }
+      });
+    });
+
+    // Contrôles
+    document.getElementById("btnFullscreen").addEventListener("click", () => {
+      if (container.requestFullscreen) {
+        container.requestFullscreen();
+      }
+    });
+
+    document.getElementById("btnReload").addEventListener("click", () => {
+      location.reload();
+    });
+
+    // Charger le premier jeu par défaut
+    const firstBtn = document.querySelector(".game-btn");
+    if (firstBtn) {
+      firstBtn.click();
+    }
+  })();
+</script>
