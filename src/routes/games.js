@@ -12,8 +12,8 @@ const Game = require("../models/Game");
 
 router.get("/", ensureAuth, ctrl.list); // Info (listing)
 router.get("/search", ensureAuth, ctrl.searchRAWG); // Recherche RAWG -> cache
-router.get("/:slug", ensureAuth, ctrl.show); // Fiche jeu
-router.post("/:id/favorite", ensureAuth, ctrl.toggleFavorite);
+router.get("/:slug", ctrl.show); // Fiche jeu (publique)
+router.post("/:slug/favorite", ensureAuth, ctrl.toggleFavorite);
 
 // Import CSV local
 router.post(

@@ -1,44 +1,316 @@
-<div class="home-hero">
-  <div class="crt">
-    <div class="crt-frame"></div>
-    <div class="crt-screen">
-      <!-- décor 8-bit qui défile -->
-      <div class="bg-parallax">
-        <div class="layer layer-far"></div>
-        <div class="layer layer-mid"></div>
-        <div class="layer layer-near"></div>
-      </div>
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>GameHub Retro – Accueil</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Police rétro (facultatif) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
 
-      <!-- personnage pixel (CSS) -->
-      <div class="hero-char" id="heroChar">
-        <div class="px px-hair"></div>
-        <div class="px px-head"></div>
-        <div class="px px-eye"></div>
-        <div class="px px-body"></div>
-        <div class="px px-arm-l"></div>
-        <div class="px px-arm-r"></div>
-        <div class="px px-leg-l"></div>
-        <div class="px px-leg-r"></div>
-      </div>
+    <style>
+      :root {
+        --tv: #1f2937;
+        --tv-dark: #111827;
+        --bezel: #374151;
+        --glass: #0b1220;
+        --sky: #8fd3ff;
+        --grass: #34d399;
+        --ground: #065f46;
+        --text: #e5e7eb;
+        --accent: #ffd400;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: #000;
+        color: var(--text);
+        font-family: "Press Start 2P", system-ui, monospace;
+      }
+      /* Cadre cathodique */
+      .stage {
+        display: grid;
+        place-items: center;
+        height: 100%;
+      }
+      .tv {
+        position: relative;
+        width: min(920px, 95vw);
+        aspect-ratio: 4/3;
+        background: linear-gradient(145deg, var(--tv), var(--tv-dark));
+        border: 10px solid var(--bezel);
+        border-radius: 28px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      }
+      .crt {
+        position: absolute;
+        inset: 20px;
+        border-radius: 18px;
+        background: var(--glass);
+        overflow: hidden;
+      }
+      .scan:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+            transparent 0 97%,
+            rgba(0, 0, 0, 0.25) 97% 100%
+          ),
+          radial-gradient(
+            120% 100% at 50% 0,
+            rgba(255, 255, 255, 0.08),
+            transparent 60%
+          );
+        background-size: 100% 3px, auto;
+        mix-blend-mode: overlay;
+        z-index: 3;
+      }
+      /* curseur main pixel (data-uri, correctement encodé) */
+      .pixel-hand {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Crect x='1' y='1' width='4' height='9' fill='white' stroke='black'/%3E%3Crect x='5' y='5' width='7' height='5' fill='white' stroke='black'/%3E%3Crect x='2' y='10' width='9' height='4' fill='white' stroke='black'/%3E%3C/svg%3E")
+            1 1,
+          pointer;
+      }
 
-      <!-- bouton Start -->
-      <form method="get" action="/arcade" class="start-wrap">
-        <button class="btn-8 btn-start" type="submit" id="startBtn">
-          ▶ Start
-        </button>
-      </form>
+      /* overlay du bouton START pour meilleures hitboxs */
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .start {
+        pointer-events: auto;
+        background: #ffc857;
+        border: 4px solid #000;
+        border-radius: 18px;
+        color: #000;
+        font-weight: 700;
+        padding: 16px 26px;
+        box-shadow: 6px 6px 0 #000;
+        transition: transform 0.08s;
+      }
+      .start:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0 #000;
+      }
+      .start:active {
+        transform: none;
+        box-shadow: 4px 4px 0 #000;
+      }
+      /* “prairie” peinte sous le canvas (fallback si WebAudio bloqué etc.) */
+      .backdrop {
+        position: absolute;
+        inset: 20px;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .sky {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(#8fd3ff, #c6ecff);
+      }
+      .ground {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 140px;
+        background: linear-gradient(var(--grass) 0 70%, var(--ground) 70% 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="tv">
+        <!-- décor CSS simple sous le canvas -->
+        <div class="backdrop">
+          <div class="sky"></div>
+          <div class="ground"></div>
+        </div>
 
-      <!-- logo méga drive + led (décor) -->
-      <div class="megadrive-deco">
-        <div class="md-slot"></div>
-        <div class="md-led" id="mdLed"></div>
+        <div class="crt scan pixel-hand">
+          <!-- Phaser dessine ici -->
+          <div id="game" style="width: 100%; height: 100%"></div>
+
+          <!-- bouton START au centre + accessible à Enter -->
+          <div class="overlay">
+            <button id="btnStart" class="start">START</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <p class="sub hint">
-    Appuie sur <kbd>Entrée</kbd> ou clique sur <strong>Start</strong>
-  </p>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+    <script>
+      // --- Config Phaser (canvas pixel perfect) ---
+      const CRT = document.querySelector(".crt");
+      const config = {
+        type: Phaser.AUTO,
+        parent: "game",
+        width: 800,
+        height: 600,
+        backgroundColor: "#7fc9ff",
+        pixelArt: true,
+        roundPixels: true,
+        physics: {
+          default: "arcade",
+          arcade: { gravity: { y: 0 }, debug: false },
+        },
+        scene: { preload, create, update },
+      };
 
-<script type="module" src="/public/home.js"></script>
+      let cursors,
+        mario,
+        clouds = [],
+        startZone,
+        allowJump = true;
+
+      function preload() {
+        this.load.image("mario", "/public/images/mario2.png");
+      }
+
+      function create() {
+        // Ciel/prairie “peints” en Graphics pour rester simples
+        const g = this.add.graphics().setDepth(0);
+        g.fillStyle(0x8fd3ff, 1).fillRect(0, 0, 800, 460);
+        g.fillStyle(0x34d399, 1).fillRect(0, 460, 800, 100);
+        g.fillStyle(0x065f46, 1).fillRect(0, 560, 800, 40);
+
+        // Petits nuages qui défilent
+        for (let i = 0; i < 4; i++) {
+          const c = this.add.rectangle(
+            -100 - i * 150,
+            80 + i * 40,
+            90,
+            40,
+            0xffffff,
+            0.95
+          );
+          clouds.push(c);
+        }
+
+        // Plateformes décoratives
+        this.add
+          .rectangle(160, 420, 180, 14, 0x8b5a2b)
+          .setStrokeStyle(4, 0x000000);
+        this.add
+          .rectangle(420, 360, 150, 14, 0x8b5a2b)
+          .setStrokeStyle(4, 0x000000);
+        this.add
+          .rectangle(660, 300, 120, 14, 0x8b5a2b)
+          .setStrokeStyle(4, 0x000000);
+
+        // Mario (pas de gravité : on simule le “saut” par tween)
+        mario = this.add
+          .image(100, 430, "mario")
+          .setOrigin(0.5, 1)
+          .setScale(0.16);
+        mario.setData("vy", 0);
+
+        // Zone invisible “START” pour déclenchement par collision
+        startZone = this.add.zone(400, 330, 150, 90).setName("start");
+        this.physics.world.enable(startZone);
+        this.physics.add.existing(startZone, true);
+
+        // Aide visuelle du bouton (texte cliquable en plus du bouton DOM)
+        const t = this.add.text(330, 305, "START", {
+          fontFamily: "Press Start 2P",
+          fontSize: "16px",
+          color: "#000",
+        });
+        t.setPadding(10, 6)
+          .setBackgroundColor("#ffd400")
+          .setInteractive({ useHandCursor: true });
+        t.on("pointerdown", goArcade);
+
+        // Touches
+        cursors = this.input.keyboard.createCursorKeys();
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.input.keyboard.on("keydown-ENTER", goArcade);
+
+        // Empêcher le scroll avec les flèches/espace
+        window.addEventListener("keydown", (e) => {
+          if (["ArrowLeft", "ArrowRight", "ArrowUp", " "].includes(e.key))
+            e.preventDefault();
+        });
+
+        // Clique sur START (overlay HTML)
+        document.getElementById("btnStart").addEventListener("click", goArcade);
+      }
+
+      function update(time, dt) {
+        // Défilement des nuages
+        clouds.forEach((c, i) => {
+          c.x += 0.3 + i * 0.05;
+          if (c.x > 900) c.x = -100;
+        });
+
+        // Déplacements simples gauche/droite
+        if (
+          cursors.left.isDown ||
+          this.input.keyboard.checkDown(this.input.keyboard.keys[65])
+        ) {
+          mario.x = Math.max(20, mario.x - 2.2);
+          mario.setFlipX(true);
+        } else if (
+          cursors.right.isDown ||
+          this.input.keyboard.checkDown(this.input.keyboard.keys[68])
+        ) {
+          mario.x = Math.min(780, mario.x + 2.2);
+          mario.setFlipX(false);
+        }
+
+        // Saut (petit tween vers le haut)
+        const jumpKey =
+          cursors.up.isDown ||
+          this.input.keyboard.checkDown(this.input.keyboard.keys[87]) ||
+          this.input.keyboard.checkDown(cursors.space);
+        if (jumpKey && allowJump) {
+          allowJump = false;
+          this.tweens.add({
+            targets: mario,
+            y: 380,
+            duration: 160,
+            yoyo: true,
+            ease: "Quad.easeOut",
+            onComplete: () => (allowJump = true),
+          });
+        }
+
+        // “Collision” très simple avec la zone START (on teste une AABB)
+        if (
+          Phaser.Geom.Intersects.RectangleToRectangle(
+            new Phaser.Geom.Rectangle(mario.x - 12, mario.y - 36, 24, 36),
+            new Phaser.Geom.Rectangle(
+              startZone.x - startZone.width / 2,
+              startZone.y - startZone.height / 2,
+              startZone.width,
+              startZone.height
+            )
+          )
+        ) {
+          goArcade();
+        }
+      }
+
+      function goArcade() {
+        window.location.href = "/arcade";
+      }
+
+      new Phaser.Game(config);
+    </script>
+  </body>
+</html>

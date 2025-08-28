@@ -1,153 +1,281 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Déconnexion — GameHub Retro (inline)</title>
-
-    <!-- Tailwind (ok pour backup/dev) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Pixel fonts -->
+    <meta charset="utf-8" />
+    <title>Déconnexion – Duck Hunt</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-
-    <!-- CSS essentiel intégré (extrait minimal de styles.css + helpers) -->
     <style>
       :root {
-        --fg: #e8f0ff;
+        --tv: #1f2937;
+        --tv-dark: #111827;
+        --bezel: #374151;
+        --glass: #0b1220;
+        --text: #e5e7eb;
+      }
+      * {
+        box-sizing: border-box;
       }
       html,
       body {
         height: 100%;
-      }
-      body {
         margin: 0;
-        color: var(--fg);
-        font-family: "Press Start 2P", system-ui, -apple-system, Segoe UI,
-          Roboto, sans-serif;
         background: #000;
-        line-height: 1.45;
+        color: var(--text);
+        font-family: "Press Start 2P", system-ui, monospace;
       }
-      .scanlines {
+      .stage {
+        display: grid;
+        place-items: center;
+        height: 100%;
+      }
+      .tv {
         position: relative;
+        width: min(920px, 95vw);
+        aspect-ratio: 4/3;
+        background: linear-gradient(145deg, var(--tv), var(--tv-dark));
+        border: 10px solid var(--bezel);
+        border-radius: 28px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
       }
-      .scanlines::before {
+      .crt {
+        position: absolute;
+        inset: 20px;
+        border-radius: 18px;
+        background: var(--glass);
+        overflow: hidden;
+        cursor: crosshair;
+      }
+      .scan:before {
         content: "";
         position: absolute;
         inset: 0;
-        background: repeating-linear-gradient(
-          0deg,
-          transparent 0px,
-          rgba(0, 0, 0, 0.08) 1px,
-          transparent 2px
-        );
         pointer-events: none;
-        z-index: 10;
+        background: linear-gradient(
+            transparent 0 97%,
+            rgba(0, 0, 0, 0.25) 97% 100%
+          ),
+          radial-gradient(
+            120% 100% at 50% 0,
+            rgba(255, 255, 255, 0.08),
+            transparent 60%
+          );
+        background-size: 100% 3px, auto;
+        mix-blend-mode: overlay;
+        z-index: 3;
       }
-      /* Bouton style cartouche (extrait) */
-      .btn8 {
-        background: linear-gradient(#fff, #cfd9ff);
-        color: #000;
+      .hud {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 14px;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .pill {
+        background: rgba(0, 0, 0, 0.75);
+        border: 2px solid #fff;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: end center;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .back {
+        pointer-events: auto;
+        margin-bottom: 26px;
+        background: #ff6b6b;
         border: 4px solid #000;
+        color: #000;
+        border-radius: 18px;
+        padding: 14px 20px;
         box-shadow: 6px 6px 0 #000;
-        padding: 0.75rem 1rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        text-decoration: none;
         transition: transform 0.08s;
       }
-      .btn8:hover {
+      .back:hover {
         transform: translate(-2px, -2px);
         box-shadow: 8px 8px 0 #000;
       }
-      .btn8:active {
+      .back:active {
         transform: none;
         box-shadow: 4px 4px 0 #000;
       }
-
-      @keyframes cloudMove {
-        0% {
-          left: -200px;
-        }
-        100% {
-          left: 100vw;
-        }
+      .backdrop {
+        position: absolute;
+        inset: 20px;
+        border-radius: 18px;
+        overflow: hidden;
       }
-      .cloud-move {
-        animation: cloudMove 25s linear infinite;
+      .sky {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(#8fd3ff, #c6ecff);
+      }
+      .ground {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 140px;
+        background: linear-gradient(#34d399 0 70%, #065f46 70% 100%);
       }
     </style>
   </head>
-  <body class="min-h-screen flex items-center justify-center">
-    <div
-      class="relative w-[920px] max-w-[92vw] h-[700px] bg-gradient-to-br from-gray-800 to-gray-900 border-8 border-gray-700 rounded-3xl shadow-2xl overflow-hidden"
-    >
-      <!-- LED décoratives -->
-      <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
-        <div
-          class="w-5 h-5 bg-gray-600 border-2 border-gray-800 rounded-full shadow-inner"
-        ></div>
-        <div
-          class="w-5 h-5 bg-red-500 border-2 border-red-700 rounded-full shadow-inner"
-        ></div>
-        <div
-          class="w-5 h-5 bg-gray-600 border-2 border-gray-800 rounded-full shadow-inner"
-        ></div>
-      </div>
-
-      <!-- Écran -->
-      <div class="absolute inset-8 rounded-2xl overflow-hidden scanlines">
-        <div
-          class="absolute inset-0 bg-gradient-to-b from-blue-300 via-blue-200 to-green-200"
-        ></div>
-
-        <!-- Message -->
-        <div
-          class="absolute top-6 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-lg text-sm z-20 border-2 border-white"
-        >
-          Vous êtes bien déconnecté·e
+  <body>
+    <div class="stage">
+      <div class="tv">
+        <div class="backdrop">
+          <div class="sky"></div>
+          <div class="ground"></div>
         </div>
-
-        <!-- Nuages -->
-        <div
-          class="absolute top-16 left-0 w-20 h-12 bg-white rounded-full opacity-90 cloud-move"
-          style="animation-delay: 3s"
-        ></div>
-        <div
-          class="absolute top-32 right-0 w-24 h-16 bg-white rounded-full opacity-90 cloud-move"
-          style="animation-delay: 7s"
-        ></div>
-        <div
-          class="absolute top-8 left-1/4 w-16 h-10 bg-white rounded-full opacity-90 cloud-move"
-          style="animation-delay: 5s"
-        ></div>
-
-        <!-- Prairie -->
-        <div
-          class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-green-600 via-green-500 to-green-400"
-        >
-          <div class="absolute bottom-0 left-0 right-0 h-8 bg-green-700"></div>
-          <div class="absolute bottom-8 left-0 right-0 h-6 bg-green-600"></div>
-          <div class="absolute bottom-14 left-0 right-0 h-4 bg-green-500"></div>
-        </div>
-
-        <!-- CTA -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
-          <a id="btnReturn" href="/arcade" class="btn8">⟵ Retour aux jeux</a>
+        <div class="crt scan">
+          <div class="hud">
+            <div class="pill">Vous êtes bien déconnecté !</div>
+            <div class="pill">Score : <span id="uiScore">0</span></div>
+          </div>
+          <div id="game" style="width: 100%; height: 100%"></div>
+          <div class="overlay">
+            <button id="btnBack" class="back">Retour aux jeux</button>
+          </div>
         </div>
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
     <script>
-      const btn = document.getElementById("btnReturn");
-      btn?.addEventListener("click", () => {
-        btn.classList.add("translate-y-0.5");
-        setTimeout(() => btn.classList.remove("translate-y-0.5"), 120);
-      });
+      const config = {
+        type: Phaser.AUTO,
+        parent: "game",
+        width: 800,
+        height: 600,
+        backgroundColor: "#9ed6ff",
+        pixelArt: true,
+        roundPixels: true,
+        scene: { preload, create },
+      };
+
+      let score = 0,
+        dog;
+
+      function preload() {
+        this.load.image("duckA", "/public/images/duckhunt4.png");
+        this.load.image("duckB", "/public/images/duckhunt6.jpg");
+        this.load.image("dogLaugh", "/public/images/duckhunt3.gif");
+        this.load.image("dogWin", "/public/images/dh.png");
+      }
+
+      function create() {
+        // “peindre” la prairie de base
+        const g = this.add.graphics().setDepth(0);
+        g.fillStyle(0x8fd3ff, 1).fillRect(0, 0, 800, 460);
+        g.fillStyle(0x34d399, 1).fillRect(0, 460, 800, 100);
+        g.fillStyle(0x065f46, 1).fillRect(0, 560, 800, 40);
+
+        // Chien au centre
+        dog = this.add
+          .image(400, 420, "dogLaugh")
+          .setOrigin(0.5, 1)
+          .setScale(1.2)
+          .setDepth(2);
+
+        // Génération régulière de canards (groupe interactif)
+        const ducks = this.add.group({ runChildUpdate: true });
+
+        const spawn = () => {
+          const tex = Math.random() < 0.5 ? "duckA" : "duckB";
+          const y = Phaser.Math.Between(80, 280);
+          const d = this.add
+            .image(-60, y, tex)
+            .setScale(0.08)
+            .setDepth(2)
+            .setInteractive({ useHandCursor: false });
+          ducks.add(d);
+          this.tweens.add({
+            targets: d,
+            x: 860,
+            duration: Phaser.Math.Between(5000, 7000),
+            onComplete: () => d.destroy(),
+          });
+          d.on("pointerdown", () => {
+            // Touché !
+            score += 100;
+            document.getElementById("uiScore").textContent = score;
+            this.tweens.add({
+              targets: d,
+              alpha: 0,
+              y: y + 20,
+              duration: 250,
+              onComplete: () => d.destroy(),
+            });
+
+            // Effet +100
+            const t = this.add
+              .text(d.x, d.y - 10, "+100", {
+                fontFamily: "Press Start 2P",
+                fontSize: "14px",
+                color: "#ff4444",
+              })
+              .setOrigin(0.5)
+              .setDepth(3);
+            this.tweens.add({
+              targets: t,
+              y: t.y - 30,
+              alpha: 0,
+              duration: 600,
+              onComplete: () => t.destroy(),
+            });
+
+            if (score >= 1000 && dog.texture.key !== "dogWin") {
+              dog.setTexture("dogWin").setScale(0.8);
+            }
+          });
+        };
+
+        // boucle d’apparition
+        spawn();
+        this.time.addEvent({ delay: 1100, loop: true, callback: spawn });
+
+        // Clic global = tir (pour feedback sonore léger via WebAudio natif)
+        this.input.on("pointerdown", playBlip);
+
+        // Bouton retour et touche Entrée
+        document.getElementById("btnBack").addEventListener("click", goArcade);
+        this.input.keyboard.on("keydown-ENTER", goArcade);
+      }
+
+      function goArcade() {
+        window.location.href = "/arcade";
+      }
+
+      // bleep très simple côté DOM
+      let ac;
+      function playBlip() {
+        try {
+          ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+          const o = ac.createOscillator(),
+            g = ac.createGain();
+          o.type = "square";
+          o.frequency.value = 700;
+          g.gain.value = 0.06;
+          o.connect(g);
+          g.connect(ac.destination);
+          o.start();
+          setTimeout(() => o.stop(), 90);
+        } catch (e) {}
+      }
+
+      new Phaser.Game(config);
     </script>
   </body>
 </html>

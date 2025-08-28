@@ -1,9 +1,10 @@
 <h1 class="hero-title">Login</h1>
+<br />
 <% if (typeof error !== 'undefined') { %>
 <p class="badge" style="border-color: #a00; background: #300"><%= error %></p>
 <% } %>
-<form method="post" class="grid" style="max-width: 420px">
-  <label>Email<input type="email" name="email" required /></label
+<form method="post" class="grid" style="max-width: 330px">
+  <label>Email<br /><input type="email" name="email" required /></label
   ><label>Mot de passe<input type="password" name="password" required /></label
   ><button class="btn-8" type="submit">Se connecter</button>
 </form>

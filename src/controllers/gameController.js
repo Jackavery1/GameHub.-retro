@@ -58,41 +58,84 @@ module.exports.searchRAWG = async (req, res) => {
 };
 
 module.exports.toggleFavorite = async (req, res) => {
-  const gameId = req.params.id;
+  try {
+    const slug = req.params.slug;
 
-  // Vérifier que l'ID est un ObjectId valide
-  if (!gameId || gameId.length !== 24 || !/^[0-9a-fA-F]{24}$/.test(gameId)) {
-    return res.status(400).json({ error: "ID de jeu invalide" });
-  }
+    // Trouver le jeu par slug
+    const game = await Game.findOne({ slug }).lean();
+    if (!game) {
+      return res.status(404).json({ error: "Jeu non trouvé" });
+    }
 
-  const user = await User.findById(req.session.userId);
-  if (!user) return res.redirect("/auth/join");
-  const idx = user.favorites.findIndex((g) => g.toString() === gameId);
-  if (idx >= 0) user.favorites.splice(idx, 1);
-  else user.favorites.push(gameId);
-  await user.save();
-  if (req.get("X-Requested-With") === "fetch" || req.accepts("json")) {
-    return res.json({ ok: true, favorite: idx < 0 });
+    const user = await User.findById(req.session.userId);
+    if (!user) return res.redirect("/auth/join");
+
+    const idx = user.favorites.findIndex(
+      (g) => g.toString() === game._id.toString()
+    );
+    if (idx >= 0) {
+      user.favorites.splice(idx, 1);
+    } else {
+      user.favorites.push(game._id);
+    }
+
+    await user.save();
+
+    if (req.get("X-Requested-With") === "fetch" || req.accepts("json")) {
+      return res.json({ ok: true, favorite: idx < 0 });
+    }
+    res.redirect("back");
+  } catch (error) {
+    console.error("Erreur toggleFavorite:", error);
+    res.status(500).json({ error: "Erreur serveur" });
   }
-  res.redirect("back");
 };
 
 module.exports.show = async (req, res) => {
-  const slug = req.params.slug;
-  const game = await Game.findOne({ slug }).lean();
-  if (!game) return res.redirect("/info");
-  let rawg = null;
   try {
-    if (game.rawgId) {
-      rawg = await getGameDetails(game.rawgId);
+    const slug = req.params.slug;
+    const game = await Game.findOne({ slug }).lean();
+
+    if (!game) {
+      return res.status(404).render("404", { title: "Jeu non trouvé" });
     }
-  } catch (e) {
-    /* silencieux */
+
+    // Récupération des détails RAWG
+    let rawg = null;
+    try {
+      if (game.rawgId) {
+        rawg = await getGameDetails(game.rawgId);
+      }
+    } catch (e) {
+      console.error("Erreur RAWG:", e.message);
+    }
+
+    // Vérification de l'authentification et des favoris
+    const isAuthenticated = req.session && req.session.userId;
+    let isFavorite = false;
+
+    if (isAuthenticated) {
+      try {
+        const user = await User.findById(req.session.userId);
+        isFavorite =
+          user &&
+          user.favorites &&
+          user.favorites.some((fav) => fav.toString() === game._id.toString());
+      } catch (e) {
+        console.error("Erreur vérification favoris:", e.message);
+      }
+    }
+
+    res.render("games/show", {
+      title: game.name,
+      page: "info",
+      game,
+      rawg,
+      isAuthenticated,
+      isFavorite,
+    });
+  } catch (error) {
+    console.error("Erreur dans show:", error);
+    res.status(500).render("404", { title: "Erreur serveur" });
   }
-  res.render("games/show", {
-    title: game.name,
-    page: "info",
-    game,
-    rawg,
-  });
 };

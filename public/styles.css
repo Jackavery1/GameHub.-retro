@@ -314,7 +314,7 @@ footer.site-footer {
   gap: 6px;
   padding: 0.5rem 0.75rem;
   color: #000;
-  background: linear-gradient(#fff, #cfd9ff);
+  background: linear-gradient(#fffffff3, #cfd9ff62);
   border: 4px solid #000;
   box-shadow: 6px 6px 0 var(--shadow);
   font-size: clamp(11px, 1vw, 13px);
@@ -489,7 +489,7 @@ label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(#fff, #cfd9ff);
+  background: linear-gradient(#ffffff4d, #cfd9ff86);
   border: 4px solid #000;
   box-shadow: 6px 6px 0 #000;
   cursor: pointer;
