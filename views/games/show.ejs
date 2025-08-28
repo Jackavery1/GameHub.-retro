@@ -1,119 +1,709 @@
 <% if (!game) { %>
-<p class="sub">Aucun jeu à afficher.</p>
+<div class="error-container">
+  <div class="error-card">
+    <h2>❌ Aucun jeu à afficher</h2>
+    <p>Le jeu demandé n'a pas été trouvé.</p>
+    <a href="/info" class="btn-primary">Retour à la liste</a>
+  </div>
+</div>
 <% } else { %>
-<h1 class="hero-title"><%= game.name %></h1>
 
-<div class="grid" style="grid-template-columns: 320px 1fr">
-  <div class="card">
-    <% if (game.cover) { %>
-    <img
-      src="<%= game.cover %>"
-      alt="<%= game.name %>"
-      style="width: 100%; border: 2px solid #000"
-    />
-    <% } %>
+<!-- Header avec titre et navigation -->
+<div class="game-header">
+  <div class="breadcrumb">
+    <a href="/info" class="breadcrumb-link">← Retour aux jeux</a>
+  </div>
+  <h1 class="game-title"><%= game.name %></h1>
+</div>
 
-    <div class="mt-2">
-      <% (game.genres || []).forEach(function(gn){ %>
-      <span class="badge"><%= gn %></span>
-      <% }) %>
+<!-- Contenu principal -->
+<div class="game-content">
+  <!-- Colonne gauche : Image et infos de base -->
+  <div class="game-sidebar">
+    <div class="cover-container">
+      <% if (game.cover) { %>
+      <img src="<%= game.cover %>" alt="<%= game.name %>" class="game-cover" />
+      <% } else { %>
+      <div class="no-cover">
+        <span class="icon">🎮</span>
+        <p>Aucune image</p>
+      </div>
+      <% } %>
     </div>
 
-    <% if (isAuthenticated) { %>
-    <form
-      class="mt-2"
-      method="post"
-      action="/info/<%= game.slug %>/favorite"
-      title="Favori / retirer"
-    >
-      <button class="btn-8 <%= isFavorite ? 'active' : '' %>" type="submit">
-        <span class="icon icon-star"></span>
-      </button>
-    </form>
-    <% } else { %>
-    <div class="mt-2">
-      <a
-        href="/auth/join"
-        class="btn-8"
-        title="Se connecter pour ajouter aux favoris"
+    <!-- Genres -->
+    <div class="genres-section">
+      <h4>Genres</h4>
+      <div class="genres-list">
+        <% (game.genres || []).forEach(function(gn){ %>
+        <span class="genre-tag"><%= gn %></span>
+        <% }) %> <% if (!game.genres || game.genres.length === 0) { %>
+        <span class="genre-tag no-genre">Aucun genre</span>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Bouton favori -->
+    <div class="favorite-section">
+      <% if (isAuthenticated) { %>
+      <form
+        method="post"
+        action="/info/<%= game.slug %>/favorite"
+        class="favorite-form"
       >
-        <span class="icon icon-star"></span>
-        <small style="font-size: 0.7em; display: block; margin-top: 2px"
-          >Se connecter</small
+        <button
+          type="submit"
+          class="favorite-btn <%= isFavorite ? 'is-favorite' : '' %>"
+          title="<%= isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' %>"
         >
+          <span class="star-icon <%= isFavorite ? 'filled' : '' %>">★</span>
+          <span class="favorite-text"
+            ><%= isFavorite ? 'Favoris' : 'Ajouter aux favoris' %></span
+          >
+        </button>
+      </form>
+      <% } else { %>
+      <a href="/auth/join" class="login-prompt">
+        <span class="star-icon">☆</span>
+        <span class="login-text">Se connecter pour ajouter aux favoris</span>
       </a>
+      <% } %>
     </div>
-    <% } %>
   </div>
 
-  <div class="card">
+  <!-- Colonne droite : Détails RAWG -->
+  <div class="game-details">
     <% if (rawg && rawg.details) { %>
-    <h3>Détails</h3>
-    <p class="sub">
-      <strong>Sortie:</strong> <%= rawg.details.released || '—' %> —
-      <strong>Note:</strong> <%= rawg.details.metacritic ?? '—' %>
-    </p>
+    <!-- Informations principales -->
+    <div class="details-card main-info">
+      <h3 class="section-title">📊 Informations</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">📅 Date de sortie</span>
+          <span class="info-value"
+            ><%= rawg.details.released || 'Non spécifiée' %></span
+          >
+        </div>
+        <div class="info-item">
+          <span class="info-label">⭐ Note Metacritic</span>
+          <span
+            class="info-value <%= rawg.details.metacritic ? 'score-' + Math.floor(rawg.details.metacritic / 20) : '' %>"
+          >
+            <%= rawg.details.metacritic || 'Non évalué' %>
+          </span>
+        </div>
+      </div>
+    </div>
 
+    <!-- Développeurs et éditeurs -->
     <% if (rawg.details.developers && rawg.details.developers.length) { %>
-    <p class="sub">
-      <strong>Dev:</strong>
-      <%= rawg.details.developers.map(function(d){return d.name}).join(', ') %>
-    </p>
+    <div class="details-card">
+      <h3 class="section-title">👨‍💻 Développeurs</h3>
+      <div class="company-list">
+        <% rawg.details.developers.forEach(function(d){ %>
+        <span class="company-tag"><%= d.name %></span>
+        <% }) %>
+      </div>
+    </div>
     <% } %> <% if (rawg.details.publishers && rawg.details.publishers.length) {
     %>
-    <p class="sub">
-      <strong>Éditeur:</strong>
-      <%= rawg.details.publishers.map(function(p){return p.name}).join(', ') %>
-    </p>
+    <div class="details-card">
+      <h3 class="section-title">🏢 Éditeurs</h3>
+      <div class="company-list">
+        <% rawg.details.publishers.forEach(function(p){ %>
+        <span class="company-tag"><%= p.name %></span>
+        <% }) %>
+      </div>
+    </div>
     <% } %>
 
-    <h3 class="mt-3">Plateformes</h3>
-    <p class="sub">
-      <% (rawg.details.platforms || []).forEach(function(p){ %>
-      <span class="badge"><%= p.platform?.name || p.name %></span>
-      <% }) %>
-    </p>
+    <!-- Plateformes -->
+    <% if (rawg.details.platforms && rawg.details.platforms.length) { %>
+    <div class="details-card">
+      <h3 class="section-title">🎮 Plateformes</h3>
+      <div class="platforms-grid">
+        <% (rawg.details.platforms || []).forEach(function(p){ %>
+        <span class="platform-badge"><%= p.platform?.name || p.name %></span>
+        <% }) %>
+      </div>
+    </div>
+    <% } %>
 
+    <!-- Description -->
     <% if (rawg.details.description_raw) { %>
-    <h3 class="mt-3">Description</h3>
-    <p style="white-space: pre-wrap">
-      <%= rawg.details.description_raw.slice(0, 1500) %>
-    </p>
-    <% } %> <% if (rawg.screenshots && rawg.screenshots.length) { %>
-    <h3 class="mt-3">Screenshots (clique pour agrandir)</h3>
-    <div class="grid" style="grid-template-columns: repeat(3, 1fr)">
-      <% rawg.screenshots.forEach(function(s){ %>
-      <img
-        class="shot"
-        src="<%= s.image %>"
-        alt="shot"
-        style="width: 100%; border: 2px solid #000; cursor: zoom-in"
-      />
-      <% }) %>
+    <div class="details-card">
+      <h3 class="section-title">📖 Description</h3>
+      <div class="description-content">
+        <p>
+          <%= rawg.details.description_raw.slice(0, 1500) %><% if
+          (rawg.details.description_raw.length > 1500) { %>...<% } %>
+        </p>
+      </div>
+    </div>
+    <% } %>
+
+    <!-- Screenshots -->
+    <% if (rawg.screenshots && rawg.screenshots.length) { %>
+    <div class="details-card">
+      <h3 class="section-title">🖼️ Screenshots</h3>
+      <p class="screenshots-hint">Cliquez sur une image pour l'agrandir</p>
+      <div class="screenshots-grid">
+        <% rawg.screenshots.forEach(function(s){ %>
+        <div class="screenshot-item">
+          <img src="<%= s.image %>" alt="Screenshot" class="screenshot-img" />
+        </div>
+        <% }) %>
+      </div>
     </div>
     <% } %> <% } else { %>
-    <p class="sub">Aucun détail RAWG disponible.</p>
+    <!-- Aucun détail RAWG -->
+    <div class="details-card no-rawg">
+      <div class="no-rawg-content">
+        <span class="no-rawg-icon">🔍</span>
+        <h3>Aucun détail RAWG disponible</h3>
+        <p>
+          Les informations détaillées pour ce jeu ne sont pas encore disponibles
+          dans notre base de données.
+        </p>
+      </div>
+    </div>
     <% } %>
   </div>
 </div>
 
+<!-- Lightbox pour les screenshots -->
 <div class="lightbox" id="lightbox">
-  <img id="lightboxImg" alt="screenshot" />
+  <div class="lightbox-content">
+    <img id="lightboxImg" alt="Screenshot" class="lightbox-image" />
+    <button class="lightbox-close" id="lightboxClose">×</button>
+  </div>
 </div>
+
+<!-- Styles CSS personnalisés -->
+<style>
+  .game-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--accent-color, #00ff88);
+  }
+
+  .breadcrumb {
+    margin-bottom: 1rem;
+  }
+
+  .breadcrumb-link {
+    color: var(--accent-color, #00ff88);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--accent-color-hover, #00cc6a);
+  }
+
+  .game-title {
+    font-size: 1.5rem;
+    margin: 0;
+    background: linear-gradient(
+      45deg,
+      var(--accent-color, #00ff88),
+      var(--accent-color-hover, #00cc6a)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  }
+
+  .game-content {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .game-sidebar {
+    position: sticky;
+    top: 2rem;
+  }
+
+  .cover-container {
+    margin-bottom: 1.5rem;
+  }
+
+  .game-cover {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .game-cover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .no-cover {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+  }
+
+  .no-cover .icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .genres-section,
+  .favorite-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .genres-section h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--text-color, #fff);
+    font-size: 0.95rem;
+  }
+
+  .genres-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .genre-tag {
+    background: var(--accent-color, #00ff88);
+    color: #000;
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .genre-tag.no-genre {
+    background: #666;
+    color: #ccc;
+  }
+
+  .favorite-btn,
+  .login-prompt {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 2px solid var(--accent-color, #00ff88);
+    background: transparent;
+    color: var(--accent-color, #00ff88);
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .favorite-btn:hover,
+  .login-prompt:hover {
+    background: var(--accent-color, #00ff88);
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  .favorite-btn.is-favorite {
+    background: #ffd700;
+    color: #000;
+    border-color: #ffd700;
+  }
+
+  .favorite-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .favorite-btn:disabled:hover {
+    background: transparent;
+    color: var(--accent-color, #00ff88);
+    transform: none;
+  }
+
+  .star-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+
+  .favorite-btn:hover .star-icon,
+  .login-prompt:hover .star-icon {
+    transform: scale(1.2);
+  }
+
+  .star-icon.filled {
+    color: #ffd700;
+  }
+
+  .game-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .details-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .details-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .section-title {
+    margin: 0 0 1rem 0;
+    color: var(--accent-color, #00ff88);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .info-label {
+    font-size: 0.8rem;
+    color: #888;
+    font-weight: 500;
+  }
+
+  .info-value {
+    font-size: 1rem;
+    color: var(--text-color, #fff);
+    font-weight: 600;
+  }
+
+  .score-4 {
+    color: #ff6b6b;
+  }
+  .score-3 {
+    color: #ffa726;
+  }
+  .score-2 {
+    color: #ffeb3b;
+  }
+  .score-1 {
+    color: #66bb6a;
+  }
+  .score-0 {
+    color: #4caf50;
+  }
+
+  .company-list,
+  .platforms-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .company-tag,
+  .platform-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color, #fff);
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .company-tag:hover,
+  .platform-badge:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .description-content {
+    line-height: 1.5;
+    color: var(--text-color, #fff);
+    font-size: 0.9rem;
+  }
+
+  .screenshots-hint {
+    color: #888;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .screenshot-item {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .screenshot-item:hover {
+    transform: scale(1.05);
+  }
+
+  .screenshot-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: filter 0.3s ease;
+  }
+
+  .screenshot-img:hover {
+    filter: brightness(1.1);
+  }
+
+  .no-rawg-content {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .no-rawg-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .no-rawg-content h3 {
+    margin: 0 0 1rem 0;
+    color: var(--accent-color, #00ff88);
+    font-size: 1.1rem;
+  }
+
+  .no-rawg-content p {
+    color: #888;
+    line-height: 1.5;
+    font-size: 0.9rem;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+  }
+
+  .lightbox.open {
+    display: flex;
+  }
+
+  .lightbox-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  .lightbox-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: var(--accent-color, #00ff88);
+    color: #000;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .lightbox-close:hover {
+    background: var(--accent-color-hover, #00cc6a);
+    transform: scale(1.1);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .game-content {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .game-sidebar {
+      position: static;
+    }
+
+    .game-title {
+      font-size: 2rem;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .screenshots-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .details-card {
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .details-card:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .details-card:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .details-card:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .details-card:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  .details-card:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+</style>
+
 <script>
   (function () {
     var lb = document.getElementById("lightbox"),
-      img = document.getElementById("lightboxImg");
-    document.querySelectorAll(".shot").forEach(function (s) {
+      img = document.getElementById("lightboxImg"),
+      closeBtn = document.getElementById("lightboxClose");
+
+    // Ouvrir lightbox
+    document.querySelectorAll(".screenshot-img").forEach(function (s) {
       s.addEventListener("click", function () {
         img.src = s.src;
         lb.classList.add("open");
+        document.body.style.overflow = "hidden";
       });
     });
-    lb &&
-      lb.addEventListener("click", function () {
+
+    // Fermer lightbox
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
         lb.classList.remove("open");
+        document.body.style.overflow = "auto";
       });
+    }
+
+    // Fermer avec Escape
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && lb.classList.contains("open")) {
+        lb.classList.remove("open");
+        document.body.style.overflow = "auto";
+      }
+    });
+
+    // Fermer en cliquant sur le fond
+    lb.addEventListener("click", function (e) {
+      if (e.target === lb) {
+        lb.classList.remove("open");
+        document.body.style.overflow = "auto";
+      }
+    });
+
+    // Gestion des favoris en AJAX
+    var favoriteForm = document.querySelector(".favorite-form");
+    if (favoriteForm) {
+      favoriteForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+        var button = this.querySelector(".favorite-btn");
+        var starIcon = button.querySelector(".star-icon");
+        var favoriteText = button.querySelector(".favorite-text");
+
+        // Désactiver le bouton pendant la requête
+        button.disabled = true;
+
+        fetch(this.action, {
+          method: "POST",
+          headers: {
+            "X-Requested-With": "fetch",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.ok) {
+              // Mettre à jour l'état visuel
+              if (data.favorite) {
+                // Ajouté aux favoris
+                button.classList.add("is-favorite");
+                starIcon.classList.add("filled");
+                favoriteText.textContent = "Favoris";
+              } else {
+                // Retiré des favoris
+                button.classList.remove("is-favorite");
+                starIcon.classList.remove("filled");
+                favoriteText.textContent = "Ajouter aux favoris";
+              }
+            }
+          })
+          .catch((error) => {
+            console.error("Erreur:", error);
+          })
+          .finally(() => {
+            // Réactiver le bouton
+            button.disabled = false;
+          });
+      });
+    }
   })();
 </script>
+
 <% } %>

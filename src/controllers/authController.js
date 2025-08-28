@@ -50,5 +50,7 @@ module.exports.login = async (req, res) => {
   }
 };
 module.exports.logout = (req, res) => {
-  req.session.destroy(() => res.render("logout", { title: "Déconnexion" }));
+  req.session.destroy(() =>
+    res.render("logout", { title: "Déconnexion", layout: false })
+  );
 };

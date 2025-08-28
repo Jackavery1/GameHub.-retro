@@ -6,7 +6,7 @@ const Registration = require("../models/Registration");
 const { getOwnedGames } = require("../services/steam");
 
 router.get("/", (req, res) =>
-  res.render("home", { title: "GameHub Retro", page: "home" })
+  res.render("home", { title: "GameHub Retro", page: "home", layout: false })
 );
 
 // src/routes/index.js
