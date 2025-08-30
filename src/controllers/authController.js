@@ -54,3 +54,20 @@ module.exports.logout = (req, res) => {
     res.render("logout", { title: "Déconnexion", layout: false })
   );
 };
+
+// Vérification de session pour le serveur MCP
+module.exports.checkSession = (req, res) => {
+  if (req.session.userId && req.session.role) {
+    res.json({
+      authenticated: true,
+      userId: req.session.userId,
+      username: req.session.username || "Admin",
+      role: req.session.role,
+    });
+  } else {
+    res.status(401).json({
+      authenticated: false,
+      message: "Session non valide",
+    });
+  }
+};

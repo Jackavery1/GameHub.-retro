@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "gamehub-retro": {
+      "command": "node",
+      "args": ["src/mcp/server.js"],
+      "env": {
+        "NODE_ENV": "development",
+        "MONGODB_URI": "mongodb://localhost:27017/gamehub-retro"
+      },
+      "description": "Serveur MCP pour GameHub Retro - Gestion des utilisateurs, jeux, tournois et base de données"
+    }
+  }
+}

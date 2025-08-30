@@ -39,3 +39,15 @@ If your testing shows problems, go back to the planning stage and think ultrahar
 ## Write up your work
 
 When you are happy with your work, write up a short report that could be used as the PR description. Include what you set out to do, the choices you made with their brief justification, and any commands you ran in the process that may be useful for future developers to know about.
+
+MONGODB_URI=mongodb://localhost:27017/gamehub-retro
+﻿PORT=3001
+SESSION_SECRET=gamehub-retro-secret-key-2024
+RAWG_KEY=4cde867900db46ee9dfbe6cd22f4a186
+MCP_ENABLED=true
+RETROARCH_PATH=C:\RetroArch\retroarch.exe
+
+DUCKSTATION_PATH=C:\Emu\DuckStation\duckstation.exe
+
+BIOS_PATH=C:\Emu\bios\psxonpsp660.bin
+NODE_ENV=development

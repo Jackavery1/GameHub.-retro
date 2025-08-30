@@ -1,0 +1,80 @@
+{
+  "name": "GameHub Retro - Phase 3",
+  "short_name": "GameHub Retro",
+  "description": "Plateforme de jeux rétro avec fonctionnalités avancées Phase 3",
+  "version": "3.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0c10",
+  "theme_color": "#00f7ff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "fr",
+
+  "icons": [
+    {
+      "src": "/public/images/dh.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/public/images/mario2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+
+  "categories": ["games", "entertainment", "retro"],
+  "screenshots": [
+    {
+      "src": "/public/images/duckhunt6.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
+
+  "features": [
+    "Lazy Loading",
+    "Animations Avancées",
+    "Notifications Push",
+    "Mode Hors Ligne",
+    "PWA Installable"
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Arcade",
+      "short_name": "Arcade",
+      "description": "Accéder aux jeux",
+      "url": "/arcade",
+      "icons": [
+        {
+          "src": "/public/images/dh.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Tournois",
+      "short_name": "Tournois",
+      "description": "Voir les tournois",
+      "url": "/tournaments",
+      "icons": [
+        {
+          "src": "/public/images/mario2.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+
+  "related_applications": [],
+  "prefer_related_applications": false,
+
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

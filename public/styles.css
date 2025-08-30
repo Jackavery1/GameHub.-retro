@@ -16,6 +16,13 @@
   --h2: clamp(16px, 1.9vw, 24px);
   --h3: clamp(14px, 1.6vw, 20px);
   --text: clamp(11px, 1.1vw, 15px);
+
+  /* PHASE 3: Nouvelles variables pour les animations */
+  --transition-fast: 0.2s ease-out;
+  --transition-medium: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-hover: 0 8px 25px rgba(0, 247, 255, 0.3);
+  --shadow-active: 0 4px 15px rgba(0, 247, 255, 0.5);
 }
 
 /* Thèmes consoles */
@@ -959,4 +966,279 @@ body[data-page="home"] .crt-screen {
       transparent 60%
     ),
     linear-gradient(135deg, var(--bg1), var(--bg2));
+}
+
+/* ===== PHASE 3: Lazy Loading et Animations Avancées ===== */
+
+/* Lazy Loading des images */
+img.lazy {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity var(--transition-medium),
+    transform var(--transition-medium);
+}
+
+img.lazy.loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Composants avec Lazy Loading */
+[data-lazy] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-medium),
+    transform var(--transition-medium);
+}
+
+[data-lazy].loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animations d'entrée pour les cartes */
+.console-card,
+.game-card,
+.tournament-card {
+  animation: slideInUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.console-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.console-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.console-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.console-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.console-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.console-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effects améliorés */
+.console-card:hover,
+.game-card:hover,
+.tournament-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .console-card,
+  .game-card,
+  .tournament-card {
+    animation-delay: 0.1s !important;
+  }
+
+  [data-lazy] {
+    transform: translateY(10px);
+  }
+}
+
+/* Performance optimizations */
+* {
+  will-change: auto;
+}
+
+.console-card,
+.game-card,
+.tournament-card {
+  will-change: transform, box-shadow;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== PHASE 3: Animations Avancées ===== */
+
+/* Animation de ripple pour les boutons */
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Animations de scroll */
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+.animate-zoomIn {
+  animation: zoomIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Effets WebGL */
+.webgl-enhanced {
+  position: relative;
+}
+
+.webgl-enhanced::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(0, 247, 255, 0.1),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* États de chargement améliorés */
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--tile) 25%,
+    var(--grid) 50%,
+    var(--tile) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite;
+}
+
+@keyframes loading-skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Améliorations de performance */
+.performance-optimized {
+  contain: layout style paint;
+  will-change: transform;
+}
+
+/* Responsive design avancé */
+@media (max-width: 480px) {
+  .console-card,
+  .game-card,
+  .tournament-card {
+    animation-delay: 0.05s !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .console-card,
+  .game-card,
+  .tournament-card {
+    animation-delay: 0.15s !important;
+  }
 }

@@ -7,6 +7,7 @@ module.exports = function (passport) {
   router.get("/register", ctrl.showRegister);
   router.post("/register", ctrl.register);
   router.post("/logout", ctrl.logout);
+  router.get("/check-session", ctrl.checkSession);
   if (passport && passport._strategies && passport._strategies.steam) {
     router.get("/steam", passport.authenticate("steam", { session: true }));
     router.get(

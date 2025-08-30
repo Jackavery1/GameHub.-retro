@@ -1,4 +1,5 @@
-// THEME persistence
+// PHASE 3: Lazy Loading et Optimisations Avancées
+// THEME persistence avec améliorations
 (function () {
   var root = document.documentElement;
   var sel = document.getElementById("theme-select");
@@ -6,6 +7,7 @@
   var saved = localStorage.getItem("theme") || (m ? m[1] : "neon");
   root.setAttribute("data-theme", saved);
   if (sel) sel.value = saved;
+
   function apply(t) {
     root.setAttribute("data-theme", t);
     localStorage.setItem("theme", t);
@@ -17,10 +19,50 @@
       });
     } catch (e) {}
   }
+
   if (sel)
     sel.addEventListener("change", function (e) {
       apply(e.target.value);
     });
+})();
+
+// PHASE 3: Système de Lazy Loading avancé
+(function () {
+  const lazyImages = document.querySelectorAll("img[data-src]");
+  const lazyComponents = document.querySelectorAll("[data-lazy]");
+
+  if ("IntersectionObserver" in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.classList.remove("lazy");
+          imageObserver.unobserve(img);
+        }
+      });
+    });
+
+    const componentObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const component = entry.target;
+          component.classList.add("loaded");
+          componentObserver.unobserve(component);
+        }
+      });
+    });
+
+    lazyImages.forEach((img) => imageObserver.observe(img));
+    lazyComponents.forEach((comp) => componentObserver.observe(comp));
+  } else {
+    // Fallback pour les navigateurs plus anciens
+    lazyImages.forEach((img) => {
+      img.src = img.dataset.src;
+      img.classList.remove("lazy");
+    });
+    lazyComponents.forEach((comp) => comp.classList.add("loaded"));
+  }
 })();
 
 // Stars background (random twinkles)

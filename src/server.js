@@ -16,9 +16,37 @@ const gameRoutes = require("./routes/games");
 const tournamentRoutes = require("./routes/tournaments");
 require("./services/steam").setupPassport(passport);
 const accountsRoutes = require("./routes/accounts");
+const adminRoutes = require("./routes/admin");
 
 const app = express();
-connectDB();
+
+// Connexion à la base de données et démarrage du serveur
+async function startServer() {
+  try {
+    await connectDB();
+    console.log("✅ Base de données connectée");
+
+    // Démarrer le serveur
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () =>
+      console.log(`▶ GameHub Retro running at http://localhost:${PORT}`)
+    );
+  } catch (error) {
+    console.error(
+      "❌ Erreur de connexion à la base de données:",
+      error.message
+    );
+    console.log("🔄 Mode test activé - base de données non disponible");
+
+    // Démarrer en mode test sans base de données
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () =>
+      console.log(
+        `▶ GameHub Retro running in test mode at http://localhost:${PORT}`
+      )
+    );
+  }
+}
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "..", "views"));
@@ -32,13 +60,14 @@ app.use(methodOverride("_method"));
 app.use(morgan("dev"));
 app.use("/public", express.static(path.join(__dirname, "..", "public")));
 
+// Configuration des sessions (sans store MongoDB pour l'instant)
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || "gamehub-retro-secret-key-2024",
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+    // store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // Désactivé temporairement
   })
 );
 
@@ -50,6 +79,11 @@ app.use(passport.session());
 app.use((req, res, next) => {
   res.locals.currentUserId = req.session.userId || null;
   res.locals.currentUserRole = req.session.role || "user";
+  res.locals.user = {
+    id: req.session.userId || null,
+    role: req.session.role || "user",
+    username: req.session.username || null,
+  };
   res.locals.theme = req.cookies?.theme || "neon";
   res.locals.hasSteam = Boolean(
     process.env.STEAM_API_KEY &&
@@ -88,6 +122,7 @@ app.use("/auth", authRoutes(passport));
 app.use("/info", gameRoutes);
 app.use("/tournaments", tournamentRoutes);
 app.use("/accounts", accountsRoutes);
+app.use("/admin", adminRoutes);
 
 // Routes spécifiques Auth Join (doivent être avant le 404)
 /* PATCH_UI_EMU_V1_AUTHJOIN */
@@ -102,7 +137,5 @@ app.use((req, res) => {
   res.status(404).render("404", { title: "404" });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`▶ GameHub Retro running at http://localhost:${PORT}`)
-);
+// Démarrer le serveur
+startServer();

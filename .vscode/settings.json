@@ -1,0 +1,9 @@
+{
+  "workbench.editor.autoLockGroups": {
+    "imagePreview.previewEditor": true,
+    "workbench.input.interactive": true
+  },
+  "chatgpt.config": {},
+  "chatgpt.openOnStartup": true,
+  "claudeCodeChat.permissions.yoloMode": true
+}

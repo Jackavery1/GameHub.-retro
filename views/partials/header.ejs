@@ -16,6 +16,16 @@
       <% if (currentUserId) { %>
       <a href="/dashboard"><span class="icon icon-user"></span> Dashboard</a>
 
+      <% if (user && user.role === 'admin') { %>
+      <a
+        href="/admin/mcp-settings"
+        class="admin-link"
+        style="color: var(--magenta); font-weight: bold"
+      >
+        <span class="icon icon-cog"></span> MCP Admin
+      </a>
+      <% } %>
+
       <form
         method="post"
         action="/auth/logout"
