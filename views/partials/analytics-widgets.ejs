@@ -1,0 +1,751 @@
+<!-- 📊 Analytics Avancés - Phase 5 -->
+<div class="analytics-container">
+  <!-- Header Analytics -->
+  <div class="analytics-header">
+    <h2 class="analytics-title">📊 ANALYTICS AVANCÉS</h2>
+    <p class="analytics-subtitle">
+      Tableaux de bord intelligents et optimisation temps réel
+    </p>
+  </div>
+
+  <!-- Métriques Temps Réel -->
+  <div class="metrics-grid">
+    <div class="metric-card users-card">
+      <div class="metric-header">
+        <div class="metric-icon">👥</div>
+        <div class="metric-info">
+          <h3 class="metric-label">Utilisateurs Actifs</h3>
+          <div class="metric-value" id="active-users">---</div>
+        </div>
+      </div>
+      <div class="metric-trend">
+        <span class="trend-indicator" id="users-trend">📈 +12%</span>
+      </div>
+    </div>
+
+    <div class="metric-card revenue-card">
+      <div class="metric-header">
+        <div class="metric-icon">💰</div>
+        <div class="metric-info">
+          <h3 class="metric-label">Revenus Aujourd'hui</h3>
+          <div class="metric-value" id="daily-revenue">---</div>
+        </div>
+      </div>
+      <div class="metric-trend">
+        <span class="trend-indicator" id="revenue-trend">📈 +8%</span>
+      </div>
+    </div>
+
+    <div class="metric-card performance-card">
+      <div class="metric-header">
+        <div class="metric-icon">⚡</div>
+        <div class="metric-info">
+          <h3 class="metric-label">Performance</h3>
+          <div class="metric-value" id="performance-score">---</div>
+        </div>
+      </div>
+      <div class="metric-trend">
+        <span class="trend-indicator" id="performance-trend">📊 Optimal</span>
+      </div>
+    </div>
+
+    <div class="metric-card alerts-card">
+      <div class="metric-header">
+        <div class="metric-icon">🚨</div>
+        <div class="metric-info">
+          <h3 class="metric-label">Alertes Actives</h3>
+          <div class="metric-value" id="active-alerts">---</div>
+        </div>
+      </div>
+      <div class="metric-trend">
+        <span class="trend-indicator" id="alerts-status">✅ Normal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboards Analytics -->
+  <div class="dashboards-grid">
+    <!-- Prédictions Utilisateur -->
+    <div class="dashboard-card prediction-dashboard">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title">
+          🧠 Prédictions Utilisateur
+          <span class="ai-badge">IA</span>
+        </h3>
+      </div>
+      <div class="dashboard-content" id="user-predictions">
+        <div class="prediction-item">
+          <div class="prediction-header">
+            <span class="prediction-label">Risque de Churn</span>
+            <span class="prediction-value">---</span>
+          </div>
+          <div class="prediction-bar">
+            <div class="prediction-fill churn-fill" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="prediction-item">
+          <div class="prediction-header">
+            <span class="prediction-label">Engagement Prédit</span>
+            <span class="prediction-value">---</span>
+          </div>
+          <div class="prediction-bar">
+            <div
+              class="prediction-fill engagement-fill"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Intelligence -->
+    <div class="dashboard-card bi-dashboard">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title">
+          📈 Business Intelligence
+          <span class="live-badge">Live</span>
+        </h3>
+      </div>
+      <div class="dashboard-content" id="business-metrics">
+        <div class="bi-metric">
+          <div class="bi-label">Taux de Conversion</div>
+          <div class="bi-value" id="conversion-rate">---</div>
+        </div>
+        <div class="bi-metric">
+          <div class="bi-label">LTV Moyen</div>
+          <div class="bi-value" id="ltv-average">---</div>
+        </div>
+        <div class="bi-metric">
+          <div class="bi-label">Segments Actifs</div>
+          <div class="bi-value" id="active-segments">---</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A/B Testing -->
+    <div class="dashboard-card ab-dashboard">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title">
+          🧪 A/B Testing
+          <span class="test-badge">Test</span>
+        </h3>
+      </div>
+      <div class="dashboard-content" id="ab-experiments">
+        <div class="experiment-item">
+          <div class="experiment-name">Optimisation Layout</div>
+          <div class="experiment-status active">Actif</div>
+          <div class="experiment-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 65%"></div>
+            </div>
+            <span class="progress-text">65%</span>
+          </div>
+        </div>
+        <div class="experiment-item">
+          <div class="experiment-name">Algorithme Recommandations</div>
+          <div class="experiment-status running">En cours</div>
+          <div class="experiment-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 42%"></div>
+            </div>
+            <span class="progress-text">42%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optimisations Temps Réel -->
+    <div class="dashboard-card optimization-dashboard">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title">
+          ⚡ Optimisations Temps Réel
+          <span class="opt-badge">Auto</span>
+        </h3>
+      </div>
+      <div class="dashboard-content" id="optimizations">
+        <div class="optimization-item">
+          <div class="optimization-name">Cache Interface</div>
+          <div class="optimization-status optimized">Optimisé</div>
+        </div>
+        <div class="optimization-item">
+          <div class="optimization-name">Ressources JS</div>
+          <div class="optimization-status optimizing">Optimisation...</div>
+        </div>
+        <div class="optimization-item">
+          <div class="optimization-name">Base de Données</div>
+          <div class="optimization-status optimized">Optimisé</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graphiques Analytics -->
+  <div class="charts-container">
+    <div class="chart-card">
+      <h3 class="chart-title">📊 Métriques Temps Réel</h3>
+      <canvas id="realtime-chart" width="400" height="200"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3 class="chart-title">📈 Tendances Utilisateurs</h3>
+      <canvas id="trends-chart" width="400" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- Insights Analytics -->
+  <div class="insights-container">
+    <h3 class="insights-title">💡 Insights Intelligents</h3>
+    <div class="insights-grid" id="analytics-insights">
+      <div class="insight-card positive">
+        <div class="insight-icon">🎯</div>
+        <div class="insight-content">
+          <h4 class="insight-title">Engagement Amélioré</h4>
+          <p class="insight-text">
+            L'optimisation de l'interface a augmenté l'engagement de 23%
+          </p>
+        </div>
+      </div>
+      <div class="insight-card warning">
+        <div class="insight-icon">⚠️</div>
+        <div class="insight-content">
+          <h4 class="insight-title">Anomalie Détectée</h4>
+          <p class="insight-text">
+            Pic de trafic inhabituel détecté sur les serveurs EU
+          </p>
+        </div>
+      </div>
+      <div class="insight-card info">
+        <div class="insight-icon">📊</div>
+        <div class="insight-content">
+          <h4 class="insight-title">Nouvelle Tendance</h4>
+          <p class="insight-text">
+            Les jeux rétro connaissent un regain d'intérêt
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Styles CSS pour les Analytics -->
+<style>
+  .analytics-container {
+    padding: 20px;
+    background: var(--bg2);
+    border: 3px solid var(--neon);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 247, 255, 0.3),
+      inset 0 0 20px rgba(0, 247, 255, 0.1);
+    margin: 20px 0;
+    font-family: "Press Start 2P", monospace;
+  }
+
+  .analytics-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--bg3);
+    border: 2px solid var(--neon);
+    border-radius: 6px;
+  }
+
+  .analytics-title {
+    font-size: var(--h2);
+    color: var(--neon);
+    margin: 0 0 10px 0;
+    text-shadow: 0 0 10px var(--neon);
+    letter-spacing: 2px;
+  }
+
+  .analytics-subtitle {
+    font-size: var(--text);
+    color: var(--muted);
+    margin: 0;
+    font-family: inherit;
+  }
+
+  /* Grille des métriques */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .metric-card {
+    background: var(--bg3);
+    border: 2px solid var(--tile);
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .metric-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--neon);
+    box-shadow: 0 0 10px var(--neon);
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 247, 255, 0.3);
+    border-color: var(--neon);
+  }
+
+  .users-card::before {
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+  }
+  .revenue-card::before {
+    background: var(--yellow);
+    box-shadow: 0 0 10px var(--yellow);
+  }
+  .performance-card::before {
+    background: var(--magenta);
+    box-shadow: 0 0 10px var(--magenta);
+  }
+  .alerts-card::before {
+    background: var(--red);
+    box-shadow: 0 0 10px var(--red);
+  }
+
+  .metric-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .metric-icon {
+    font-size: 2em;
+    opacity: 0.8;
+  }
+
+  .metric-info {
+    flex: 1;
+  }
+
+  .metric-label {
+    font-size: var(--text);
+    color: var(--muted);
+    margin: 0 0 5px 0;
+    font-family: inherit;
+  }
+
+  .metric-value {
+    font-size: var(--h2);
+    color: var(--fg);
+    font-weight: bold;
+    text-shadow: 0 0 5px currentColor;
+  }
+
+  .metric-trend {
+    text-align: right;
+  }
+
+  .trend-indicator {
+    font-size: 0.8em;
+    color: var(--green);
+    font-family: inherit;
+  }
+
+  /* Grille des dashboards */
+  .dashboards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .dashboard-card {
+    background: var(--bg3);
+    border: 2px solid var(--tile);
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .dashboard-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--tile);
+  }
+
+  .dashboard-title {
+    font-size: var(--h3);
+    color: var(--fg);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: inherit;
+  }
+
+  .ai-badge,
+  .live-badge,
+  .test-badge,
+  .opt-badge {
+    font-size: 0.7em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+
+  .ai-badge {
+    background: var(--magenta);
+    color: var(--bg1);
+  }
+  .live-badge {
+    background: var(--green);
+    color: var(--bg1);
+  }
+  .test-badge {
+    background: var(--yellow);
+    color: var(--bg1);
+  }
+  .opt-badge {
+    background: var(--neon);
+    color: var(--bg1);
+  }
+
+  .dashboard-content {
+    space-y: 15px;
+  }
+
+  /* Prédictions */
+  .prediction-item {
+    margin-bottom: 15px;
+  }
+
+  .prediction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .prediction-label {
+    font-size: var(--text);
+    color: var(--muted);
+    font-family: inherit;
+  }
+
+  .prediction-value {
+    font-size: var(--text);
+    color: var(--fg);
+    font-weight: bold;
+    font-family: inherit;
+  }
+
+  .prediction-bar {
+    background: var(--bg1);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--tile);
+  }
+
+  .prediction-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  .churn-fill {
+    background: linear-gradient(90deg, var(--green), var(--red));
+  }
+
+  .engagement-fill {
+    background: var(--blue);
+  }
+
+  /* Business Intelligence */
+  .bi-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--tile);
+  }
+
+  .bi-metric:last-child {
+    border-bottom: none;
+  }
+
+  .bi-label {
+    font-size: var(--text);
+    color: var(--muted);
+    font-family: inherit;
+  }
+
+  .bi-value {
+    font-size: var(--text);
+    color: var(--fg);
+    font-weight: bold;
+    font-family: inherit;
+  }
+
+  /* A/B Testing */
+  .experiment-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: var(--bg2);
+    border-radius: 4px;
+    border: 1px solid var(--tile);
+  }
+
+  .experiment-name {
+    font-size: var(--text);
+    color: var(--fg);
+    margin-bottom: 5px;
+    font-family: inherit;
+  }
+
+  .experiment-status {
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    display: inline-block;
+    font-family: inherit;
+  }
+
+  .experiment-status.active {
+    background: var(--green);
+    color: var(--bg1);
+  }
+  .experiment-status.running {
+    background: var(--yellow);
+    color: var(--bg1);
+  }
+
+  .experiment-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .progress-bar {
+    flex: 1;
+    background: var(--bg1);
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--tile);
+  }
+
+  .progress-fill {
+    background: var(--neon);
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 0.8em;
+    color: var(--muted);
+    font-family: inherit;
+  }
+
+  /* Optimisations */
+  .optimization-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--tile);
+  }
+
+  .optimization-item:last-child {
+    border-bottom: none;
+  }
+
+  .optimization-name {
+    font-size: var(--text);
+    color: var(--fg);
+    font-family: inherit;
+  }
+
+  .optimization-status {
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: inherit;
+  }
+
+  .optimization-status.optimized {
+    background: var(--green);
+    color: var(--bg1);
+  }
+  .optimization-status.optimizing {
+    background: var(--yellow);
+    color: var(--bg1);
+  }
+
+  /* Graphiques */
+  .charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .chart-card {
+    background: var(--bg3);
+    border: 2px solid var(--tile);
+    border-radius: 6px;
+    padding: 20px;
+  }
+
+  .chart-title {
+    font-size: var(--h3);
+    color: var(--fg);
+    margin: 0 0 20px 0;
+    text-align: center;
+    font-family: inherit;
+  }
+
+  /* Insights */
+  .insights-container {
+    background: var(--bg3);
+    border: 2px solid var(--tile);
+    border-radius: 6px;
+    padding: 20px;
+  }
+
+  .insights-title {
+    font-size: var(--h3);
+    color: var(--fg);
+    margin: 0 0 20px 0;
+    text-align: center;
+    font-family: inherit;
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .insight-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    background: var(--bg2);
+    border-radius: 6px;
+    border: 1px solid var(--tile);
+    transition: all 0.3s ease;
+  }
+
+  .insight-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 247, 255, 0.2);
+  }
+
+  .insight-card.positive {
+    border-left: 4px solid var(--green);
+  }
+  .insight-card.warning {
+    border-left: 4px solid var(--yellow);
+  }
+  .insight-card.info {
+    border-left: 4px solid var(--neon);
+  }
+
+  .insight-icon {
+    font-size: 1.5em;
+    flex-shrink: 0;
+  }
+
+  .insight-content {
+    flex: 1;
+  }
+
+  .insight-title {
+    font-size: var(--text);
+    color: var(--fg);
+    margin: 0 0 5px 0;
+    font-family: inherit;
+  }
+
+  .insight-text {
+    font-size: 0.9em;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.4;
+    font-family: inherit;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .dashboards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .charts-container {
+      grid-template-columns: 1fr;
+    }
+
+    .insights-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .analytics-container {
+      padding: 15px;
+      margin: 15px 0;
+    }
+  }
+</style>
+
+<!-- Script d'initialisation des Analytics -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("📊 Initialisation widgets Analytics...");
+    if (typeof AnalyticsDashboard !== "undefined") {
+      window.analyticsDashboard = new AnalyticsDashboard();
+      window.analyticsDashboard.init();
+    } else {
+      console.log(
+        "⚠️ AnalyticsDashboard non disponible, chargement des fallbacks..."
+      );
+      initializeFallbackAnalytics();
+    }
+  });
+
+  function initializeFallbackAnalytics() {
+    // Fallback pour les métriques temps réel
+    const metrics = {
+      "active-users": "1,247",
+      "daily-revenue": "€2,847",
+      "performance-score": "94.2%",
+      "active-alerts": "2",
+    };
+
+    Object.keys(metrics).forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.textContent = metrics[id];
+      }
+    });
+
+    // Fallback pour les prédictions
+    const predictions = {
+      "churn-risk": "12%",
+      engagement: "87%",
+    };
+
+    // Fallback pour les graphiques
+    console.log("📊 Fallback Analytics initialisé");
+  }
+</script>

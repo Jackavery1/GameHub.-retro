@@ -17,6 +17,7 @@ const tournamentRoutes = require("./routes/tournaments");
 require("./services/steam").setupPassport(passport);
 const accountsRoutes = require("./routes/accounts");
 const adminRoutes = require("./routes/admin");
+const mcpRoutes = require("./routes/mcp");
 
 const app = express();
 
@@ -123,6 +124,8 @@ app.use("/info", gameRoutes);
 app.use("/tournaments", tournamentRoutes);
 app.use("/accounts", accountsRoutes);
 app.use("/admin", adminRoutes);
+app.use("/api/mcp", mcpRoutes);
+app.use("/api/analytics", require("./routes/analytics"));
 
 // Routes spécifiques Auth Join (doivent être avant le 404)
 /* PATCH_UI_EMU_V1_AUTHJOIN */
@@ -133,6 +136,9 @@ app.get("/auth/login", (req, res) => res.redirect("/auth/join"));
 app.get("/auth/register", (req, res) => res.redirect("/auth/join"));
 
 // 404 en dernier
+
+app.use("/api/ai", require("./routes/ai"));
+
 app.use((req, res) => {
   res.status(404).render("404", { title: "404" });
 });

@@ -12,11 +12,27 @@
     "mcp:maintenance:test": "npm run mcp:maintenance:cleanup -- --dry-run",
     "mcp:maintenance:advanced": "node scripts/maintenance/advanced-maintenance.js",
     "phase1:test": "node scripts/test-phase1-complete.js",
-    "phase2:test": "node scripts/test-phase2.js",
+    "phase2:test": "node scripts/ai-test-suite.js",
     "phase2:intelligence:test": "node scripts/test-phase2-intelligence.js",
     "test:interface": "node scripts/test-interface-phase2.js",
     "integration:start": "node scripts/start-integration.js",
-    "integration:test": "node scripts/test-integration.js"
+    "integration:test": "node scripts/test-integration.js",
+    "test:realtime": "node scripts/test-interface-realtime.js",
+    "phase2:start": "node scripts/phase2-start.js",
+    "phase2:validate": "npm run test:realtime && npm run phase2:test",
+    "test:ai-apis": "node scripts/test-ai-apis.js",
+    "phase3:start": "node scripts/phase3-start.js",
+    "phase3:test": "node scripts/ar-test-suite.js",
+    "phase3:validate": "npm run phase2:validate && npm run phase3:test",
+    "phase4:start": "node scripts/phase4-start.js",
+    "phase4:test": "node scripts/blockchain-test-suite.js",
+    "phase4:validate": "npm run phase3:validate && npm run phase4:test",
+    "phase5:start": "node scripts/phase5-start.js",
+    "phase5:test": "node scripts/analytics-test-suite.js",
+    "phase5:validate": "npm run phase4:validate && npm run phase5:test",
+    "phase6:start": "node scripts/phase6-start.js",
+    "phase6:test": "node scripts/ai-advanced-test-suite.js",
+    "phase6:validate": "npm run phase5:validate && npm run phase6:test"
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -36,6 +52,7 @@
     "node-cron": "^4.2.1",
     "passport": "^0.7.0",
     "passport-steam": "^1.0.18",
+    "web3": "^4.16.0",
     "ws": "^8.18.3"
   },
   "devDependencies": {

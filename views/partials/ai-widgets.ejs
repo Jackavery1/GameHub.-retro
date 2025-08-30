@@ -1,0 +1,261 @@
+
+<!-- Widgets IA Avancés -->
+<div class="ai-widgets">
+  <!-- Widget Recommandations IA Avancé -->
+  <div class="widget ai-recommendations-advanced" data-mcp="ai-tools">
+    <div class="widget-header">
+      <h3>🎯 Recommandations IA Avancées</h3>
+      <div class="widget-status mcp-status">IA</div>
+    </div>
+    <div class="widget-content">
+      <div class="recommendations-advanced">
+        <div class="recommendation-filters">
+          <button class="filter-btn active" data-filter="all">Tous</button>
+          <button class="filter-btn" data-filter="high-confidence">Haute confiance</button>
+          <button class="filter-btn" data-filter="new-games">Nouveaux jeux</button>
+        </div>
+        <div class="recommendations-list-advanced">
+          <div class="loading">Analyse de vos préférences...</div>
+        </div>
+        <div class="ai-insights">
+          <h4>💡 Insights IA</h4>
+          <div class="insights-content">
+            <p>Analyse en cours de vos patterns de jeu...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widget Matchmaking Intelligent -->
+  <div class="widget intelligent-matchmaking" data-mcp="matchmaking-tools">
+    <div class="widget-header">
+      <h3>🤖 Matchmaking Intelligent</h3>
+      <div class="widget-status mcp-status">IA</div>
+    </div>
+    <div class="widget-content">
+      <div class="matchmaking-status">
+        <div class="search-status">
+          <div class="search-indicator">
+            <div class="pulse"></div>
+            <span>Recherche d'adversaire...</span>
+          </div>
+          <div class="estimated-time">Temps estimé: <span id="wait-time">--</span></div>
+        </div>
+        <div class="matchmaking-options">
+          <label>
+            <input type="checkbox" id="skill-based" checked>
+            Appariement par compétence
+          </label>
+          <label>
+            <input type="checkbox" id="region-based">
+            Région préférée
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widget Analytics Prédictifs -->
+  <div class="widget predictive-analytics" data-mcp="analytics-tools">
+    <div class="widget-header">
+      <h3>📊 Analytics Prédictifs</h3>
+      <div class="widget-status mcp-status">IA</div>
+    </div>
+    <div class="widget-content">
+      <div class="analytics-predictions">
+        <div class="prediction-chart">
+          <canvas id="performance-chart"></canvas>
+        </div>
+        <div class="prediction-metrics">
+          <div class="metric">
+            <span class="metric-label">Performance prédite</span>
+            <span class="metric-value" id="predicted-performance">--</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Probabilité de victoire</span>
+            <span class="metric-value" id="win-probability">--</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Taux d'amélioration</span>
+            <span class="metric-value" id="improvement-rate">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widget Notifications IA -->
+  <div class="widget smart-notifications" data-mcp="notification-tools">
+    <div class="widget-header">
+      <h3>🔔 Notifications IA</h3>
+      <div class="widget-status mcp-status">IA</div>
+    </div>
+    <div class="widget-content">
+      <div class="notifications-list">
+        <div class="notification-item">
+          <div class="notification-icon">🎮</div>
+          <div class="notification-content">
+            <div class="notification-title">Nouveau jeu recommandé</div>
+            <div class="notification-message">Basé sur vos préférences</div>
+            <div class="notification-time">Il y a 2h</div>
+          </div>
+        </div>
+      </div>
+      <div class="notification-settings">
+        <button class="btn btn-primary" onclick="configureAINotifications()">
+          Configurer les notifications IA
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.ai-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+  margin: 25px 0;
+}
+
+.ai-widgets .widget {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 25px;
+  color: white;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-widgets .widget::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4caf50, #2196f3, #ff9800);
+  animation: rainbow 3s linear infinite;
+}
+
+@keyframes rainbow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.ai-widgets .widget:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.recommendation-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.search-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.pulse {
+  width: 12px;
+  height: 12px;
+  background: #4caf50;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+.prediction-chart {
+  height: 200px;
+  margin-bottom: 20px;
+}
+
+.prediction-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.metric {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.metric-label {
+  display: block;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 5px;
+}
+
+.metric-value {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.notification-icon {
+  font-size: 24px;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.notification-message {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.notification-time {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 5px;
+}
+</style>

@@ -357,4 +357,3 @@ Vous avez maintenant :
 ---
 
 **📞 Support :** Consultez la documentation ou créez une issue pour toute question.
-

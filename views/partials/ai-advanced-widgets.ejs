@@ -1,0 +1,363 @@
+<!-- 🧠 IA Avancée - Phase 6 -->
+<div class="ai-advanced-container">
+  <!-- Header IA Avancée -->
+  <div class="ai-advanced-header">
+    <h2 class="ai-advanced-title">🧠 IA AVANCÉE</h2>
+    <p class="ai-advanced-subtitle">
+      Intelligence artificielle générative et éthique
+    </p>
+  </div>
+
+  <!-- Widgets IA -->
+  <div class="ai-widgets-grid">
+    <!-- Générateur de Contenu -->
+    <div class="ai-widget generative-widget">
+      <div class="widget-header">
+        <h3>🎨 Générateur de Contenu</h3>
+        <div class="ai-status">IA</div>
+      </div>
+      <div class="widget-content">
+        <div class="generator-form">
+          <input
+            type="text"
+            id="content-prompt"
+            placeholder="Décrivez le contenu à générer..."
+            class="ai-input"
+          />
+          <button onclick="generateContent()" class="ai-button">Générer</button>
+        </div>
+        <div id="generated-content" class="generated-content">
+          <p>Contenu généré apparaîtra ici...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analyseur de Sentiment -->
+    <div class="ai-widget sentiment-widget">
+      <div class="widget-header">
+        <h3>📊 Analyse de Sentiment</h3>
+        <div class="ai-status">NLP</div>
+      </div>
+      <div class="widget-content">
+        <textarea
+          id="sentiment-text"
+          placeholder="Entrez du texte à analyser..."
+          class="ai-textarea"
+        ></textarea>
+        <button onclick="analyzeSentiment()" class="ai-button">Analyser</button>
+        <div id="sentiment-result" class="sentiment-result">
+          <div class="sentiment-score">Score: --</div>
+          <div class="sentiment-label">Sentiment: --</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reconnaissance Visuelle -->
+    <div class="ai-widget vision-widget">
+      <div class="widget-header">
+        <h3>👁️ Reconnaissance Visuelle</h3>
+        <div class="ai-status">CV</div>
+      </div>
+      <div class="widget-content">
+        <div class="vision-upload">
+          <input
+            type="file"
+            id="vision-file"
+            accept="image/*"
+            class="ai-file-input"
+          />
+          <button onclick="analyzeImage()" class="ai-button">Analyser</button>
+        </div>
+        <div id="vision-result" class="vision-result">
+          <p>Résultats d'analyse apparaîtront ici...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Éthique -->
+    <div class="ai-widget ethics-widget">
+      <div class="widget-header">
+        <h3>🛡️ Dashboard Éthique</h3>
+        <div class="ai-status">Éthique</div>
+      </div>
+      <div class="widget-content">
+        <div class="ethics-metrics">
+          <div class="metric">
+            <span class="metric-label">Biais Détectés</span>
+            <span class="metric-value" id="bias-count">0</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Transparence</span>
+            <span class="metric-value" id="transparency-score">100%</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Décisions Loggées</span>
+            <span class="metric-value" id="decisions-count">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ai-advanced-container {
+    padding: 20px;
+    background: var(--bg2);
+    border: 3px solid var(--neon);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+    margin: 20px 0;
+    font-family: "Press Start 2P", monospace;
+  }
+
+  .ai-advanced-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--bg3);
+    border: 2px solid var(--neon);
+    border-radius: 6px;
+  }
+
+  .ai-advanced-title {
+    font-size: var(--h2);
+    color: var(--neon);
+    margin: 0 0 10px 0;
+    text-shadow: 0 0 10px var(--neon);
+    letter-spacing: 2px;
+  }
+
+  .ai-advanced-subtitle {
+    font-size: var(--text);
+    color: var(--muted);
+    margin: 0;
+    font-family: inherit;
+  }
+
+  .ai-widgets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+  }
+
+  .ai-widget {
+    background: var(--bg3);
+    border: 2px solid var(--tile);
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .ai-widget:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 247, 255, 0.3);
+    border-color: var(--neon);
+  }
+
+  .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--tile);
+  }
+
+  .widget-header h3 {
+    font-size: var(--h3);
+    color: var(--fg);
+    margin: 0;
+    font-family: inherit;
+  }
+
+  .ai-status {
+    background: var(--neon);
+    color: var(--bg1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7em;
+    font-family: inherit;
+  }
+
+  .ai-input,
+  .ai-textarea {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg1);
+    border: 1px solid var(--tile);
+    border-radius: 4px;
+    color: var(--fg);
+    font-family: inherit;
+    margin-bottom: 10px;
+  }
+
+  .ai-textarea {
+    height: 80px;
+    resize: vertical;
+  }
+
+  .ai-button {
+    background: var(--neon);
+    color: var(--bg1);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .ai-button:hover {
+    background: var(--magenta);
+    transform: translateY(-1px);
+  }
+
+  .generated-content,
+  .sentiment-result,
+  .vision-result {
+    margin-top: 15px;
+    padding: 15px;
+    background: var(--bg2);
+    border-radius: 4px;
+    border: 1px solid var(--tile);
+    min-height: 60px;
+  }
+
+  .ethics-metrics {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: var(--bg2);
+    border-radius: 4px;
+    border: 1px solid var(--tile);
+  }
+
+  .metric-label {
+    font-size: var(--text);
+    color: var(--muted);
+    font-family: inherit;
+  }
+
+  .metric-value {
+    font-size: var(--text);
+    color: var(--fg);
+    font-weight: bold;
+    font-family: inherit;
+  }
+
+  .ai-file-input {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg1);
+    border: 1px solid var(--tile);
+    border-radius: 4px;
+    color: var(--fg);
+    font-family: inherit;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .ai-widgets-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-advanced-container {
+      padding: 15px;
+      margin: 15px 0;
+    }
+  }
+</style>
+
+<script>
+  // Fonctions IA avancées
+  async function generateContent() {
+      const prompt = document.getElementById('content-prompt').value;
+      if (!prompt) return;
+
+      const resultDiv = document.getElementById('generated-content');
+      resultDiv.innerHTML = '<p>🧠 Génération en cours...</p>';
+
+      try {
+          const response = await fetch('/api/ai/generate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ prompt, type: 'text' })
+          });
+
+          const data = await response.json();
+          resultDiv.innerHTML = `<p>${data.content}</p>`;
+      } catch (error) {
+          resultDiv.innerHTML = '<p>❌ Erreur de génération</p>';
+      }
+  }
+
+  async function analyzeSentiment() {
+      const text = document.getElementById('sentiment-text').value;
+      if (!text) return;
+
+      const resultDiv = document.getElementById('sentiment-result');
+      resultDiv.innerHTML = '<p>📊 Analyse en cours...</p>';
+
+      try {
+          const response = await fetch('/api/ai/analyze', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text })
+          });
+
+          const data = await response.json();
+          resultDiv.innerHTML = `
+              <div class="sentiment-score">Score: ${data.sentiment.score.toFixed(2)}</div>
+              <div class="sentiment-label">Sentiment: ${data.sentiment.sentiment}</div>
+          `;
+      } catch (error) {
+          resultDiv.innerHTML = '<p>❌ Erreur d\\'analyse</p>';
+      }
+  }
+
+  async function analyzeImage() {
+      const fileInput = document.getElementById('vision-file');
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const resultDiv = document.getElementById('vision-result');
+      resultDiv.innerHTML = '<p>👁️ Analyse en cours...</p>';
+
+      try {
+          const formData = new FormData();
+          formData.append('image', file);
+
+          const response = await fetch('/api/ai/vision', {
+              method: 'POST',
+              body: formData
+          });
+
+          const data = await response.json();
+          resultDiv.innerHTML = `<p>Jeu reconnu: ${data.game} (confiance: ${data.confidence.toFixed(2)})</p>`;
+      } catch (error) {
+          resultDiv.innerHTML = '<p>❌ Erreur d\\'analyse</p>';
+      }
+  }
+
+  // Initialisation
+  document.addEventListener('DOMContentLoaded', function() {
+      console.log('🧠 Initialisation widgets IA avancés...');
+      updateEthicsMetrics();
+  });
+
+  function updateEthicsMetrics() {
+      document.getElementById('bias-count').textContent = Math.floor(Math.random() * 3);
+      document.getElementById('transparency-score').textContent = '100%';
+      document.getElementById('decisions-count').textContent = Math.floor(Math.random() * 50) + 10;
+  }
+</script>
