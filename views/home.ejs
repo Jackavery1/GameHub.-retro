@@ -178,8 +178,6 @@
 
       let cursors,
         mario,
-        clouds = [],
-        startZone,
         allowJump = true;
 
       function preload() {
@@ -187,35 +185,209 @@
       }
 
       function create() {
-        // Ciel/prairie “peints” en Graphics pour rester simples
+        // Ciel/prairie "peints" en Graphics pour rester simples
         const g = this.add.graphics().setDepth(0);
         g.fillStyle(0x8fd3ff, 1).fillRect(0, 0, 800, 460);
+
+        // Nuages détaillés
+        g.fillStyle(0xffffff, 0.9);
+        g.fillEllipse(160, 80, 80, 40);
+        g.fillEllipse(200, 72, 60, 30);
+        g.fillEllipse(240, 88, 70, 36);
+
+        g.fillEllipse(560, 60, 90, 50);
+        g.fillEllipse(600, 48, 70, 40);
+        g.fillEllipse(640, 72, 80, 44);
+
+        // 2 nuages supplémentaires
+        g.fillEllipse(320, 100, 70, 35);
+        g.fillEllipse(350, 92, 50, 25);
+        g.fillEllipse(380, 108, 60, 30);
+
+        g.fillEllipse(720, 40, 85, 45);
+        g.fillEllipse(750, 32, 65, 35);
+        g.fillEllipse(780, 48, 75, 38);
+
+        // Prairie de base
         g.fillStyle(0x34d399, 1).fillRect(0, 460, 800, 100);
         g.fillStyle(0x065f46, 1).fillRect(0, 560, 800, 40);
 
-        // Petits nuages qui défilent
-        for (let i = 0; i < 4; i++) {
-          const c = this.add.rectangle(
-            -100 - i * 150,
-            80 + i * 40,
-            90,
-            40,
-            0xffffff,
-            0.95
-          );
-          clouds.push(c);
+        // Arbres en arrière-plan
+        g.fillStyle(0x065f46, 1);
+        g.fillEllipse(80, 520, 60, 120);
+        g.fillEllipse(720, 530, 50, 100);
+        g.fillEllipse(40, 560, 70, 140);
+        g.fillEllipse(760, 550, 40, 80);
+
+        // Herbes détaillées
+        g.fillStyle(0x22c55e, 0.8);
+        for (let i = 0; i < 20; i++) {
+          const x = 40 + i * 40;
+          const height = 20 + Math.random() * 20;
+          g.fillEllipse(x, 500, 8, height);
         }
 
-        // Plateformes décoratives
-        this.add
-          .rectangle(160, 420, 180, 14, 0x8b5a2b)
-          .setStrokeStyle(4, 0x000000);
-        this.add
-          .rectangle(420, 360, 150, 14, 0x8b5a2b)
-          .setStrokeStyle(4, 0x000000);
-        this.add
-          .rectangle(660, 300, 120, 14, 0x8b5a2b)
-          .setStrokeStyle(4, 0x000000);
+        // Fleurs jaunes
+        g.fillStyle(0xffd400, 1);
+        g.fillCircle(60, 480, 3);
+        g.fillCircle(100, 485, 2);
+        g.fillCircle(160, 475, 4);
+        g.fillCircle(220, 490, 3);
+        g.fillCircle(280, 480, 2);
+        g.fillCircle(340, 485, 3);
+        g.fillCircle(400, 475, 4);
+        g.fillCircle(460, 490, 2);
+        g.fillCircle(520, 480, 3);
+        g.fillCircle(580, 485, 4);
+        g.fillCircle(640, 475, 2);
+        g.fillCircle(700, 490, 3);
+        g.fillCircle(760, 480, 4);
+
+        // Fleurs blanches
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(80, 485, 2);
+        g.fillCircle(140, 480, 3);
+        g.fillCircle(200, 485, 2);
+        g.fillCircle(260, 475, 3);
+        g.fillCircle(320, 490, 2);
+        g.fillCircle(380, 480, 3);
+        g.fillCircle(440, 485, 2);
+        g.fillCircle(500, 475, 3);
+        g.fillCircle(560, 490, 2);
+        g.fillCircle(620, 480, 3);
+        g.fillCircle(680, 485, 2);
+        g.fillCircle(740, 475, 3);
+
+        // Détails d'herbes supplémentaires
+        g.fillStyle(0x16a34a, 0.6);
+        for (let i = 0; i < 30; i++) {
+          const x = 20 + i * 25;
+          const height = 10 + Math.random() * 15;
+          g.fillEllipse(x, 510, 3, height);
+        }
+
+        // Nuages détaillés
+        g.fillStyle(0xffffff, 0.9);
+        g.fillEllipse(160, 80, 80, 40);
+        g.fillEllipse(200, 72, 60, 30);
+        g.fillEllipse(240, 88, 70, 36);
+
+        g.fillEllipse(560, 60, 90, 50);
+        g.fillEllipse(600, 48, 70, 40);
+        g.fillEllipse(640, 72, 80, 44);
+
+        // Prairie de base
+        g.fillStyle(0x34d399, 1).fillRect(0, 460, 800, 100);
+        g.fillStyle(0x065f46, 1).fillRect(0, 560, 800, 40);
+
+        // Arbres en arrière-plan
+        g.fillStyle(0x065f46, 1);
+        g.fillEllipse(80, 520, 60, 120);
+        g.fillEllipse(720, 530, 50, 100);
+        g.fillEllipse(40, 560, 70, 140);
+        g.fillEllipse(760, 550, 40, 80);
+
+        // Herbes détaillées
+        g.fillStyle(0x22c55e, 0.8);
+        for (let i = 0; i < 20; i++) {
+          const x = 40 + i * 40;
+          const height = 20 + Math.random() * 20;
+          g.fillEllipse(x, 500, 8, height);
+        }
+
+        // Fleurs jaunes
+        g.fillStyle(0xffd400, 1);
+        g.fillCircle(60, 480, 3);
+        g.fillCircle(100, 485, 2);
+        g.fillCircle(160, 475, 4);
+        g.fillCircle(220, 490, 3);
+        g.fillCircle(280, 480, 2);
+        g.fillCircle(340, 485, 3);
+        g.fillCircle(400, 475, 4);
+        g.fillCircle(460, 490, 2);
+        g.fillCircle(520, 480, 3);
+        g.fillCircle(580, 485, 4);
+        g.fillCircle(640, 475, 2);
+        g.fillCircle(700, 490, 3);
+        g.fillCircle(760, 480, 4);
+
+        // Fleurs blanches
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(80, 485, 2);
+        g.fillCircle(140, 480, 3);
+        g.fillCircle(200, 485, 2);
+        g.fillCircle(260, 475, 3);
+        g.fillCircle(320, 490, 2);
+        g.fillCircle(380, 480, 3);
+        g.fillCircle(440, 485, 2);
+        g.fillCircle(500, 475, 3);
+        g.fillCircle(560, 490, 2);
+        g.fillCircle(620, 480, 3);
+        g.fillCircle(680, 485, 2);
+        g.fillCircle(740, 475, 3);
+
+        // Détails d'herbes supplémentaires
+        g.fillStyle(0x16a34a, 0.6);
+        for (let i = 0; i < 30; i++) {
+          const x = 20 + i * 25;
+          const height = 10 + Math.random() * 15;
+          g.fillEllipse(x, 510, 3, height);
+        }
+
+        // Plateformes stylisées Mario Bros NES
+        const platformData = [
+          { x: 160, y: 420, width: 180, height: 16 },
+          { x: 420, y: 360, width: 150, height: 16 },
+          { x: 660, y: 300, width: 120, height: 16 },
+        ];
+
+        platformData.forEach((data, index) => {
+          const platform = this.add.graphics().setDepth(1);
+
+          // Base de la plateforme (brique principale)
+          platform.fillStyle(0xd4a574, 1);
+          platform.fillRect(data.x, data.y, data.width, data.height);
+
+          // Contour sombre
+          platform.lineStyle(2, 0x8b4513, 1);
+          platform.strokeRect(data.x, data.y, data.width, data.height);
+
+          // Détails de briques (lignes horizontales)
+          platform.lineStyle(1, 0x8b4513, 0.8);
+          for (let i = 1; i < 3; i++) {
+            platform.beginPath();
+            platform.moveTo(data.x, data.y + (data.height / 3) * i);
+            platform.lineTo(
+              data.x + data.width,
+              data.y + (data.height / 3) * i
+            );
+            platform.strokePath();
+          }
+
+          // Détails de briques (lignes verticales)
+          for (let i = 1; i < 6; i++) {
+            platform.beginPath();
+            platform.moveTo(data.x + (data.width / 6) * i, data.y);
+            platform.lineTo(
+              data.x + (data.width / 6) * i,
+              data.y + data.height
+            );
+            platform.strokePath();
+          }
+
+          // Effet 3D (ombre)
+          platform.fillStyle(0xf4d03f, 0.3);
+          platform.fillRect(data.x + 2, data.y + 2, data.width - 4, 4);
+
+          // Effet 3D (surbrillance)
+          platform.fillStyle(0xc0392b, 0.2);
+          platform.fillRect(
+            data.x + 2,
+            data.y + data.height - 4,
+            data.width - 4,
+            4
+          );
+        });
 
         // Mario (pas de gravité : on simule le “saut” par tween)
         mario = this.add
@@ -225,20 +397,6 @@
         mario.setData("vy", 0);
 
         // Zone invisible “START” pour déclenchement par collision
-        startZone = this.add.zone(400, 330, 150, 90).setName("start");
-        this.physics.world.enable(startZone);
-        this.physics.add.existing(startZone, true);
-
-        // Aide visuelle du bouton (texte cliquable en plus du bouton DOM)
-        const t = this.add.text(330, 305, "START", {
-          fontFamily: "Press Start 2P",
-          fontSize: "16px",
-          color: "#000",
-        });
-        t.setPadding(10, 6)
-          .setBackgroundColor("#ffc857")
-          .setInteractive({ useHandCursor: true });
-        t.on("pointerdown", goArcade);
 
         // Touches
         cursors = this.input.keyboard.createCursorKeys();
@@ -258,12 +416,6 @@
       }
 
       function update(time, dt) {
-        // Défilement des nuages
-        clouds.forEach((c, i) => {
-          c.x += 0.3 + i * 0.05;
-          if (c.x > 900) c.x = -100;
-        });
-
         // Déplacements simples gauche/droite
         if (
           cursors.left.isDown ||
@@ -294,21 +446,6 @@
             ease: "Quad.easeOut",
             onComplete: () => (allowJump = true),
           });
-        }
-
-        // “Collision” très simple avec la zone START (on teste une AABB)
-        if (
-          Phaser.Geom.Intersects.RectangleToRectangle(
-            new Phaser.Geom.Rectangle(mario.x - 12, mario.y - 36, 24, 36),
-            new Phaser.Geom.Rectangle(
-              startZone.x - startZone.width / 2,
-              startZone.y - startZone.height / 2,
-              startZone.width,
-              startZone.height
-            )
-          )
-        ) {
-          goArcade();
         }
       }
 
