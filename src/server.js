@@ -21,6 +21,9 @@ const mcpRoutes = require("./routes/mcp");
 
 const app = express();
 
+// Timestamp de démarrage du serveur
+const SERVER_START_TIME = Date.now();
+
 // Connexion à la base de données et démarrage du serveur
 async function startServer() {
   try {
@@ -75,6 +78,27 @@ app.use(
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Middleware de redirection vers la page d'accueil après redémarrage
+app.use((req, res, next) => {
+  // Vérifier si c'est la première visite depuis le démarrage du serveur
+  const lastVisit = req.session.lastVisit;
+  const currentTime = Date.now();
+
+  // Si pas de dernière visite OU si la dernière visite était avant le redémarrage du serveur
+  if (!lastVisit || lastVisit < SERVER_START_TIME) {
+    // Mettre à jour la dernière visite
+    req.session.lastVisit = currentTime;
+
+    // Rediriger vers la page d'accueil seulement si ce n'est pas déjà la page d'accueil
+    if (req.path !== "/" && req.path !== "/home") {
+      console.log(`🏠 Redirection vers la page d'accueil depuis: ${req.path}`);
+      return res.redirect("/");
+    }
+  }
+
+  next();
+});
 
 // Expose variables à toutes les vues (dont hasSteam)
 app.use((req, res, next) => {

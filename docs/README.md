@@ -6,15 +6,37 @@ Ce dossier contient toute la documentation consolidée du projet **GameHub Retro
 
 ---
 
+## 🆕 **Dernières Mises à Jour**
+
+### **📈 Avancées Récentes (Nouvellement Consolidées)**
+
+- **[AVANCEES_RECENTES_PROJET.md](./AVANCEES_RECENTES_PROJET.md)** - Document consolidé de toutes les nouvelles fonctionnalités :
+
+  - 🏠 Redirection automatique vers la page d'accueil
+  - 🏆 Correction complète du système de tournois
+  - ⚙️ Réorganisation du dashboard admin (Settings Admin)
+  - 🎮 Amélioration des émulateurs avec pages CRT et fonctionnelles
+  - 📊 Corrections techniques et optimisations
+
+- **[CORRECTIONS_TECHNIQUES_DETAILLEES.md](./CORRECTIONS_TECHNIQUES_DETAILLEES.md)** - Diagnostic détaillé de tous les bugs résolus :
+  - 🚨 Erreurs 404 et corrections de routes
+  - 🔧 Problèmes MCP et authentification
+  - 🎯 Corrections de formulaires et validations
+  - 📝 Logs de diagnostic et résolutions
+
+---
+
 ## 📋 Structure de la Documentation
 
 ### **🎮 Documentation Principale**
 
-| Fichier                                                              | Description                         | Usage                          |
-| -------------------------------------------------------------------- | ----------------------------------- | ------------------------------ |
-| **[MCP_COMPLETE_DOCUMENTATION.md](./MCP_COMPLETE_DOCUMENTATION.md)** | Documentation complète et détaillée | Référence technique complète   |
-| **[EXECUTIVE_SUMMARY.md](./EXECUTIVE_SUMMARY.md)**                   | Résumé exécutif                     | Vue d'ensemble rapide          |
-| **[README.md](./README.md)**                                         | Ce fichier d'index                  | Navigation de la documentation |
+| Fichier                                                                            | Description                          | Usage                             |
+| ---------------------------------------------------------------------------------- | ------------------------------------ | --------------------------------- |
+| **[MCP_COMPLETE_DOCUMENTATION.md](./MCP_COMPLETE_DOCUMENTATION.md)**               | Documentation complète et détaillée  | Référence technique complète      |
+| **[EXECUTIVE_SUMMARY.md](./EXECUTIVE_SUMMARY.md)**                                 | Résumé exécutif                      | Vue d'ensemble rapide             |
+| **[AVANCEES_RECENTES_PROJET.md](./AVANCEES_RECENTES_PROJET.md)**                   | **NOUVEAU** - Avancées récentes      | Dernières fonctionnalités         |
+| **[CORRECTIONS_TECHNIQUES_DETAILLEES.md](./CORRECTIONS_TECHNIQUES_DETAILLEES.md)** | **NOUVEAU** - Corrections détaillées | Résolution de bugs et diagnostics |
+| **[README.md](./README.md)**                                                       | Ce fichier d'index                   | Navigation de la documentation    |
 
 ### **📊 Documentation par Phase**
 

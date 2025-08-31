@@ -39,10 +39,43 @@ module.exports.index = async (req, res) => {
 module.exports.showCreate = async (req, res) => {
   try {
     const games = await Game.find().sort({ name: 1 }).lean();
-    res.render("tournaments/create", { title: "Create Tournament", games });
+    console.log("🎮 Jeux trouvés dans la base:", games.length);
+
+    if (games.length === 0) {
+      console.log("⚠️ Aucun jeu trouvé, création de jeux de test...");
+      // Créer quelques jeux de test si aucun n'existe
+      const testGames = [
+        { name: "Super Mario Bros", slug: "super-mario-bros" },
+        { name: "Duck Hunt", slug: "duck-hunt" },
+        { name: "Contra", slug: "contra" },
+        { name: "Mega Man", slug: "mega-man" },
+      ];
+
+      for (const gameData of testGames) {
+        try {
+          await Game.create(gameData);
+          console.log(`✅ Jeu créé: ${gameData.name}`);
+        } catch (err) {
+          console.log(
+            `⚠️ Jeu ${gameData.name} existe déjà ou erreur:`,
+            err.message
+          );
+        }
+      }
+
+      // Relire les jeux après création
+      const updatedGames = await Game.find().sort({ name: 1 }).lean();
+      res.render("tournaments/create", {
+        title: "Create Tournament",
+        games: updatedGames,
+      });
+    } else {
+      res.render("tournaments/create", { title: "Create Tournament", games });
+    }
   } catch (error) {
-    console.log("🔄 Mode test - affichage des jeux de test");
-    // Données de test pour le mode test
+    console.error("❌ Erreur lors de la récupération des jeux:", error);
+
+    // En cas d'erreur, utiliser des données de test
     const games = [
       { _id: "test-game-1", name: "Super Mario Bros", platform: "NES" },
       { _id: "test-game-2", name: "Duck Hunt", platform: "NES" },
@@ -55,6 +88,15 @@ module.exports.showCreate = async (req, res) => {
 module.exports.create = async (req, res) => {
   try {
     const { title, gameId, startsAt, maxPlayers } = req.body;
+
+    console.log("📝 Tentative de création de tournoi:", {
+      title,
+      gameId,
+      startsAt,
+      maxPlayers,
+      userId: req.session.userId,
+    });
+
     const t = await Tournament.create({
       title,
       game: gameId,
@@ -62,11 +104,33 @@ module.exports.create = async (req, res) => {
       maxPlayers: Number(maxPlayers) || 8,
       createdBy: req.session.userId,
     });
+
+    console.log("✅ Tournoi créé avec succès:", t._id);
     res.redirect("/tournaments/" + t._id);
   } catch (error) {
-    console.log("🔄 Mode test - création de tournoi simulée");
-    // En mode test, rediriger vers la liste des tournois
-    res.redirect("/tournaments");
+    console.error("❌ Erreur lors de la création du tournoi:", error);
+
+    // Vérifier si c'est un problème de validation
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        error: "Erreur de validation",
+        details: error.message,
+      });
+    }
+
+    // Vérifier si c'est un problème de référence (game inexistant)
+    if (error.name === "CastError" || error.codeName === "DocumentNotFound") {
+      return res.status(400).json({
+        error: "Jeu invalide ou inexistant",
+        details: error.message,
+      });
+    }
+
+    // Autres erreurs
+    res.status(500).json({
+      error: "Erreur serveur lors de la création du tournoi",
+      details: error.message,
+    });
   }
 };
 module.exports.show = async (req, res) => {

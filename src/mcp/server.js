@@ -15,6 +15,7 @@ const tournamentTools = require("./tools/tournamentTools");
 const authTools = require("./tools/authTools");
 const databaseTools = require("./tools/databaseTools");
 const intelligenceTools = require("./tools/intelligenceTools");
+const emulatorTools = require("./tools/emulatorTools");
 
 // Import du middleware d'authentification
 const MCPAuthMiddleware = require("./middleware/auth");
@@ -495,6 +496,7 @@ class MCPServer {
       ...authTools,
       ...databaseTools,
       ...intelligenceTools,
+      ...emulatorTools,
     ];
 
     allTools.forEach((tool) => {

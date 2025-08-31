@@ -1,10 +1,10 @@
 <div class="crt-container">
-  <div class="crt-tv">
-    <div class="crt-screen">
+  <div class="crt-tv gb-tv">
+    <div class="crt-screen gb-screen">
       <div class="crt-bezel">
-        <canvas id="nesScreen" width="256" height="240"></canvas>
-        <div class="crt-scanlines"></div>
-        <div class="crt-glow"></div>
+        <canvas id="gbScreen" width="160" height="144"></canvas>
+        <div class="crt-scanlines gb-scanlines"></div>
+        <div class="crt-glow gb-glow"></div>
       </div>
     </div>
 
@@ -15,73 +15,73 @@
     </div>
   </div>
 
-  <div class="game-library">
+  <div class="game-library gb-library">
     <div class="library-header">🎮</div>
     <div class="game-grid">
-      <!-- Jeux Internet Archive -->
+      <!-- Jeux Game Boy Internet Archive -->
       <div
-        class="game-cartridge"
-        data-game="mario"
-        data-url="https://archive.org/embed/msdos_Super_Mario_Bros_1985"
-      >
-        <div class="cart-label">
-          <div class="cart-icon">🍄</div>
-          <div class="cart-title">Mario</div>
-        </div>
-      </div>
-
-      <div
-        class="game-cartridge"
-        data-game="zelda"
-        data-url="https://archive.org/embed/zeldanes"
-      >
-        <div class="cart-label">
-          <div class="cart-icon">⚔️</div>
-          <div class="cart-title">Zelda</div>
-        </div>
-      </div>
-
-      <div
-        class="game-cartridge"
-        data-game="metroid"
-        data-url="https://archive.org/embed/metroidnes"
-      >
-        <div class="cart-label">
-          <div class="cart-icon">🚀</div>
-          <div class="cart-title">Metroid</div>
-        </div>
-      </div>
-
-      <div
-        class="game-cartridge"
-        data-game="megaman"
-        data-url="https://archive.org/embed/megamannes"
-      >
-        <div class="cart-label">
-          <div class="cart-icon">🤖</div>
-          <div class="cart-title">MegaMan</div>
-        </div>
-      </div>
-
-      <div
-        class="game-cartridge"
-        data-game="duckhunt"
-        data-url="https://archive.org/embed/duckhuntnes"
-      >
-        <div class="cart-label">
-          <div class="cart-icon">🦆</div>
-          <div class="cart-title">Duck Hunt</div>
-        </div>
-      </div>
-
-      <div
-        class="game-cartridge"
+        class="game-cartridge gb-cart"
         data-game="tetris"
-        data-url="https://archive.org/embed/tetrisnes"
+        data-url="https://archive.org/embed/gb_Tetris_1989"
       >
         <div class="cart-label">
           <div class="cart-icon">🧩</div>
           <div class="cart-title">Tetris</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge gb-cart"
+        data-game="pokemon-red"
+        data-url="https://archive.org/embed/gb_Pokemon_Red_1996"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">⚡</div>
+          <div class="cart-title">Pokémon</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge gb-cart"
+        data-game="zelda-links-awakening"
+        data-url="https://archive.org/embed/gb_Zelda_Links_Awakening_1993"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">⚔️</div>
+          <div class="cart-title">Zelda LA</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge gb-cart"
+        data-game="mario-land"
+        data-url="https://archive.org/embed/gb_Super_Mario_Land_1989"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">🍄</div>
+          <div class="cart-title">Mario Land</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge gb-cart"
+        data-game="metroid-2"
+        data-url="https://archive.org/embed/gb_Metroid_II_1991"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">🚀</div>
+          <div class="cart-title">Metroid II</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge gb-cart"
+        data-game="kirby"
+        data-url="https://archive.org/embed/gb_Kirbys_Dream_Land_1992"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">🌸</div>
+          <div class="cart-title">Kirby</div>
         </div>
       </div>
     </div>
@@ -94,25 +94,81 @@
     gap: 40px;
     padding: 20px;
     min-height: 80vh;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    background: linear-gradient(135deg, #2c3e50, #4a6741);
   }
 
+  .gb-tv {
+    background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  }
+
+  .gb-screen {
+    background: #8b956d;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6),
+      0 0 20px rgba(139, 149, 109, 0.4);
+  }
+
+  .gb-glow {
+    background: radial-gradient(
+      circle at center,
+      rgba(139, 149, 109, 0.3) 0%,
+      transparent 70%
+    );
+  }
+
+  #gbScreen {
+    width: 320px;
+    height: 288px;
+    image-rendering: pixelated;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #8b956d, #9bbc0f);
+    display: block;
+    filter: contrast(1.2) brightness(0.9);
+  }
+
+  .gb-library {
+    background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+  }
+
+  .gb-cart {
+    background: linear-gradient(145deg, #34495e, #2c3e50);
+  }
+
+  .gb-cart::before {
+    background: linear-gradient(90deg, #8b956d, #9bbc0f, #306230, #0f380f);
+  }
+
+  .gb-cart:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(139, 149, 109, 0.4);
+  }
+
+  .gb-cart.active {
+    background: linear-gradient(145deg, #27ae60, #2ecc71);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 30px rgba(139, 149, 109, 0.6);
+  }
+
+  .gb-scanlines {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 149, 109, 0.1) 2px,
+      rgba(139, 149, 109, 0.1) 4px
+    );
+  }
+
+  /* Styles communs réutilisés */
   .crt-tv {
     position: relative;
-    background: linear-gradient(145deg, #2c3e50, #34495e);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-      inset 0 2px 4px rgba(255, 255, 255, 0.1);
   }
 
   .crt-screen {
     position: relative;
-    background: #000;
     border-radius: 15px;
     padding: 20px;
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8),
-      0 0 20px rgba(0, 247, 255, 0.3);
   }
 
   .crt-bezel {
@@ -122,28 +178,12 @@
     overflow: hidden;
   }
 
-  #nesScreen {
-    width: 512px;
-    height: 480px;
-    image-rendering: pixelated;
-    border-radius: 8px;
-    background: linear-gradient(45deg, #001122, #002244);
-    display: block;
-  }
-
   .crt-scanlines {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 255, 0, 0.03) 2px,
-      rgba(0, 255, 0, 0.03) 4px
-    );
     pointer-events: none;
   }
 
@@ -153,11 +193,6 @@
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background: radial-gradient(
-      circle at center,
-      rgba(0, 247, 255, 0.1) 0%,
-      transparent 70%
-    );
     pointer-events: none;
     animation: crt-glow 3s ease-in-out infinite alternate;
   }
@@ -185,7 +220,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(145deg, #34495e, #2c3e50);
+    background: linear-gradient(145deg, #7f8c8d, #95a5a6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -208,7 +243,6 @@
 
   .game-library {
     flex: 1;
-    background: linear-gradient(145deg, #2c3e50, #34495e);
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
@@ -229,7 +263,6 @@
   }
 
   .game-cartridge {
-    background: linear-gradient(145deg, #7f8c8d, #95a5a6);
     border-radius: 10px;
     padding: 15px;
     cursor: pointer;
@@ -242,7 +275,6 @@
 
   .game-cartridge:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 247, 255, 0.3);
   }
 
   .game-cartridge:active {
@@ -256,12 +288,11 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60, #3498db);
   }
 
   .cart-label {
     text-align: center;
-    color: #2c3e50;
+    color: white;
   }
 
   .cart-icon {
@@ -272,12 +303,6 @@
   .cart-title {
     font-size: 0.9em;
     font-weight: bold;
-  }
-
-  .game-cartridge.active {
-    background: linear-gradient(145deg, #3498db, #2980b9);
-    color: white;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 247, 255, 0.5);
   }
 
   .game-cartridge.active .cart-label {
@@ -291,9 +316,9 @@
       gap: 20px;
     }
 
-    #nesScreen {
+    #gbScreen {
       width: 100%;
-      max-width: 512px;
+      max-width: 320px;
       height: auto;
     }
 
@@ -308,7 +333,7 @@
 </style>
 
 <script>
-  // Gestion des jeux
+  // Gestion des jeux Game Boy
   let currentGame = null;
   let gameFrame = null;
 
@@ -320,26 +345,50 @@
   });
 
   function initializeEmulator() {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("gbScreen");
     const ctx = canvas.getContext("2d");
 
-    // Affichage de démarrage
-    ctx.fillStyle = "#001122";
+    // Affichage de démarrage Game Boy avec effet monochrome
+    const gradient = ctx.createLinearGradient(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+    gradient.addColorStop(0, "#9bbc0f");
+    gradient.addColorStop(1, "#8b956d");
+
+    ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Logo NES stylisé
-    ctx.fillStyle = "#00ff88";
-    ctx.font = "bold 24px monospace";
+    // Logo Game Boy stylisé
+    ctx.fillStyle = "#0f380f";
+    ctx.font = "bold 16px monospace";
     ctx.textAlign = "center";
-    ctx.fillText("NES EMULATOR", canvas.width / 2, canvas.height / 2 - 20);
+    ctx.fillText("GAME BOY", canvas.width / 2, canvas.height / 2 - 15);
 
-    ctx.fillStyle = "#0088ff";
-    ctx.font = "16px monospace";
+    ctx.fillStyle = "#306230";
+    ctx.font = "12px monospace";
     ctx.fillText(
       "Sélectionnez un jeu →",
       canvas.width / 2,
-      canvas.height / 2 + 20
+      canvas.height / 2 + 15
     );
+
+    // Effet de pixels Game Boy
+    drawGameBoyDots(ctx);
+  }
+
+  function drawGameBoyDots(ctx) {
+    ctx.fillStyle = "#0f380f";
+    // Simuler l'effet de matrice de points du Game Boy
+    for (let x = 0; x < 160; x += 4) {
+      for (let y = 0; y < 144; y += 4) {
+        if (Math.random() > 0.7) {
+          ctx.fillRect(x, y, 1, 1);
+        }
+      }
+    }
   }
 
   function setupGameLibrary() {
@@ -382,7 +431,7 @@
   }
 
   function loadGame(gameUrl, gameName) {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("gbScreen");
     const container = canvas.parentElement;
 
     // Supprimer l'ancien iframe s'il existe
@@ -400,6 +449,7 @@
     gameFrame.style.position = "absolute";
     gameFrame.style.top = "0";
     gameFrame.style.left = "0";
+    gameFrame.style.filter = "sepia(1) hue-rotate(60deg) saturate(0.8)";
 
     // Cacher le canvas et afficher l'iframe
     canvas.style.display = "none";
@@ -418,7 +468,7 @@
   }
 
   function togglePower() {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("gbScreen");
     const container = canvas.parentElement;
 
     if (gameFrame) {
@@ -461,60 +511,3 @@
 `;
   document.head.appendChild(style);
 </script>
-
-<style>
-  .game-selector {
-    margin-bottom: 20px;
-  }
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
-  }
-  .game-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 12px;
-    background: var(--tile);
-    border: 2px solid #000;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .game-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0 #000;
-  }
-  .game-btn.active {
-    background: var(--neon);
-    color: #000;
-  }
-  .game-icon {
-    font-size: 24px;
-    margin-bottom: 4px;
-  }
-  .game-name {
-    font-size: 12px;
-    font-weight: bold;
-  }
-  .game-area {
-    text-align: center;
-    margin: 20px 0;
-  }
-  .game-controls {
-    margin-top: 10px;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .instructions {
-    margin-top: 20px;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-  }
-</style>
-
-<script type="module" src="/public/emulators/nes.js"></script>

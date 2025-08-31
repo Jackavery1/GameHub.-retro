@@ -18,11 +18,11 @@ router.get("/", ensureAdmin, (req, res) => {
   });
 });
 
-// Page des paramètres MCP
-router.get("/mcp-settings", ensureAdmin, (req, res) => {
-  res.render("admin/mcp-settings", {
+// Page des paramètres avancés
+router.get("/settings", ensureAdmin, (req, res) => {
+  res.render("admin/settings", {
     user: { username: req.session.username || "Admin", role: req.session.role },
-    title: "Paramètres MCP - GameHub Retro Admin",
+    title: "Settings Admin - GameHub Retro",
   });
 });
 

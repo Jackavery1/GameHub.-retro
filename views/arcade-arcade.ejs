@@ -1,10 +1,10 @@
 <div class="crt-container">
-  <div class="crt-tv">
-    <div class="crt-screen">
+  <div class="crt-tv arcade-tv">
+    <div class="crt-screen arcade-screen">
       <div class="crt-bezel">
-        <canvas id="nesScreen" width="256" height="240"></canvas>
-        <div class="crt-scanlines"></div>
-        <div class="crt-glow"></div>
+        <canvas id="arcadeScreen" width="320" height="240"></canvas>
+        <div class="crt-scanlines arcade-scanlines"></div>
+        <div class="crt-glow arcade-glow"></div>
       </div>
     </div>
 
@@ -15,73 +15,95 @@
     </div>
   </div>
 
-  <div class="game-library">
-    <div class="library-header">🎮</div>
+  <div class="game-library arcade-library">
+    <div class="library-header">🕹️</div>
     <div class="game-grid">
-      <!-- Jeux Internet Archive -->
+      <!-- Jeux Arcade Internet Archive -->
       <div
-        class="game-cartridge"
-        data-game="mario"
-        data-url="https://archive.org/embed/msdos_Super_Mario_Bros_1985"
+        class="game-cartridge arcade-cart"
+        data-game="pacman"
+        data-url="https://archive.org/embed/arcade_pacman"
       >
         <div class="cart-label">
-          <div class="cart-icon">🍄</div>
-          <div class="cart-title">Mario</div>
+          <div class="cart-icon">👻</div>
+          <div class="cart-title">Pac-Man</div>
         </div>
       </div>
 
       <div
-        class="game-cartridge"
-        data-game="zelda"
-        data-url="https://archive.org/embed/zeldanes"
-      >
-        <div class="cart-label">
-          <div class="cart-icon">⚔️</div>
-          <div class="cart-title">Zelda</div>
-        </div>
-      </div>
-
-      <div
-        class="game-cartridge"
-        data-game="metroid"
-        data-url="https://archive.org/embed/metroidnes"
+        class="game-cartridge arcade-cart"
+        data-game="galaga"
+        data-url="https://archive.org/embed/arcade_galaga"
       >
         <div class="cart-label">
           <div class="cart-icon">🚀</div>
-          <div class="cart-title">Metroid</div>
+          <div class="cart-title">Galaga</div>
         </div>
       </div>
 
       <div
-        class="game-cartridge"
-        data-game="megaman"
-        data-url="https://archive.org/embed/megamannes"
+        class="game-cartridge arcade-cart"
+        data-game="frogger"
+        data-url="https://archive.org/embed/arcade_frogger"
       >
         <div class="cart-label">
-          <div class="cart-icon">🤖</div>
-          <div class="cart-title">MegaMan</div>
+          <div class="cart-icon">🐸</div>
+          <div class="cart-title">Frogger</div>
         </div>
       </div>
 
       <div
-        class="game-cartridge"
-        data-game="duckhunt"
-        data-url="https://archive.org/embed/duckhuntnes"
+        class="game-cartridge arcade-cart"
+        data-game="asteroids"
+        data-url="https://archive.org/embed/arcade_asteroids"
       >
         <div class="cart-label">
-          <div class="cart-icon">🦆</div>
-          <div class="cart-title">Duck Hunt</div>
+          <div class="cart-icon">🪨</div>
+          <div class="cart-title">Asteroids</div>
         </div>
       </div>
 
       <div
-        class="game-cartridge"
-        data-game="tetris"
-        data-url="https://archive.org/embed/tetrisnes"
+        class="game-cartridge arcade-cart"
+        data-game="centipede"
+        data-url="https://archive.org/embed/arcade_centipede"
       >
         <div class="cart-label">
-          <div class="cart-icon">🧩</div>
-          <div class="cart-title">Tetris</div>
+          <div class="cart-icon">🐛</div>
+          <div class="cart-title">Centipede</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge arcade-cart"
+        data-game="donkey-kong"
+        data-url="https://archive.org/embed/arcade_donkey_kong"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">🦍</div>
+          <div class="cart-title">DK</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge arcade-cart"
+        data-game="space-invaders"
+        data-url="https://archive.org/embed/arcade_space_invaders"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">👾</div>
+          <div class="cart-title">Invaders</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge arcade-cart"
+        data-game="street-fighter"
+        data-url="https://archive.org/embed/arcade_street_fighter_2"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">👊</div>
+          <div class="cart-title">Street F.</div>
         </div>
       </div>
     </div>
@@ -94,25 +116,143 @@
     gap: 40px;
     padding: 20px;
     min-height: 80vh;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    background: linear-gradient(135deg, #8e44ad, #e74c3c);
+    position: relative;
+    overflow: hidden;
   }
 
+  .crt-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at 20% 50%,
+        rgba(255, 255, 0, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(255, 0, 255, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 80%,
+        rgba(0, 255, 255, 0.1) 0%,
+        transparent 50%
+      );
+    animation: arcade-bg 10s ease-in-out infinite alternate;
+  }
+
+  @keyframes arcade-bg {
+    0% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 0.7;
+    }
+  }
+
+  .arcade-tv {
+    background: linear-gradient(145deg, #2c3e50, #34495e);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    z-index: 2;
+  }
+
+  .arcade-screen {
+    background: #000;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(255, 255, 0, 0.4);
+  }
+
+  .arcade-glow {
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 0, 0.2) 0%,
+      transparent 70%
+    );
+  }
+
+  #arcadeScreen {
+    width: 640px;
+    height: 480px;
+    image-rendering: pixelated;
+    border-radius: 8px;
+    background: radial-gradient(circle at center, #ff00ff, #ffff00, #00ffff);
+    display: block;
+  }
+
+  .arcade-library {
+    background: linear-gradient(145deg, #2c3e50, #34495e);
+    z-index: 2;
+  }
+
+  .arcade-cart {
+    background: linear-gradient(145deg, #f39c12, #e67e22);
+    animation: arcade-pulse 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes arcade-pulse {
+    0% {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
+    100% {
+      box-shadow: 0 8px 16px rgba(243, 156, 18, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .arcade-cart::before {
+    background: linear-gradient(90deg, #ff00ff, #ffff00, #00ffff, #ff0000);
+    animation: rainbow-border 3s linear infinite;
+  }
+
+  @keyframes rainbow-border {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .arcade-cart:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 0, 0.6);
+    animation: none;
+    transform: translateY(-5px) scale(1.02);
+  }
+
+  .arcade-cart.active {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 255, 0, 0.8);
+    animation: none;
+  }
+
+  .arcade-scanlines {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(255, 255, 0, 0.05) 1px,
+      rgba(255, 255, 0, 0.05) 3px
+    );
+  }
+
+  /* Styles communs réutilisés */
   .crt-tv {
     position: relative;
-    background: linear-gradient(145deg, #2c3e50, #34495e);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-      inset 0 2px 4px rgba(255, 255, 255, 0.1);
   }
 
   .crt-screen {
     position: relative;
-    background: #000;
     border-radius: 15px;
     padding: 20px;
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8),
-      0 0 20px rgba(0, 247, 255, 0.3);
   }
 
   .crt-bezel {
@@ -122,28 +262,12 @@
     overflow: hidden;
   }
 
-  #nesScreen {
-    width: 512px;
-    height: 480px;
-    image-rendering: pixelated;
-    border-radius: 8px;
-    background: linear-gradient(45deg, #001122, #002244);
-    display: block;
-  }
-
   .crt-scanlines {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 255, 0, 0.03) 2px,
-      rgba(0, 255, 0, 0.03) 4px
-    );
     pointer-events: none;
   }
 
@@ -153,11 +277,6 @@
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background: radial-gradient(
-      circle at center,
-      rgba(0, 247, 255, 0.1) 0%,
-      transparent 70%
-    );
     pointer-events: none;
     animation: crt-glow 3s ease-in-out infinite alternate;
   }
@@ -208,7 +327,6 @@
 
   .game-library {
     flex: 1;
-    background: linear-gradient(145deg, #2c3e50, #34495e);
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
@@ -220,6 +338,7 @@
     font-size: 2em;
     margin-bottom: 20px;
     color: var(--neon);
+    text-shadow: 0 0 10px var(--neon);
   }
 
   .game-grid {
@@ -229,7 +348,6 @@
   }
 
   .game-cartridge {
-    background: linear-gradient(145deg, #7f8c8d, #95a5a6);
     border-radius: 10px;
     padding: 15px;
     cursor: pointer;
@@ -238,11 +356,6 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
       inset 0 2px 4px rgba(255, 255, 255, 0.2);
-  }
-
-  .game-cartridge:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 247, 255, 0.3);
   }
 
   .game-cartridge:active {
@@ -256,12 +369,13 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60, #3498db);
+    background-size: 200% 100%;
   }
 
   .cart-label {
     text-align: center;
-    color: #2c3e50;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   }
 
   .cart-icon {
@@ -272,12 +386,6 @@
   .cart-title {
     font-size: 0.9em;
     font-weight: bold;
-  }
-
-  .game-cartridge.active {
-    background: linear-gradient(145deg, #3498db, #2980b9);
-    color: white;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 247, 255, 0.5);
   }
 
   .game-cartridge.active .cart-label {
@@ -291,9 +399,9 @@
       gap: 20px;
     }
 
-    #nesScreen {
+    #arcadeScreen {
       width: 100%;
-      max-width: 512px;
+      max-width: 640px;
       height: auto;
     }
 
@@ -308,7 +416,7 @@
 </style>
 
 <script>
-  // Gestion des jeux
+  // Gestion des jeux Arcade
   let currentGame = null;
   let gameFrame = null;
 
@@ -320,26 +428,64 @@
   });
 
   function initializeEmulator() {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("arcadeScreen");
     const ctx = canvas.getContext("2d");
 
-    // Affichage de démarrage
-    ctx.fillStyle = "#001122";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Affichage de démarrage Arcade avec effet psychédélique
+    drawArcadeBackground(ctx);
 
-    // Logo NES stylisé
-    ctx.fillStyle = "#00ff88";
-    ctx.font = "bold 24px monospace";
+    // Logo Arcade stylisé
+    ctx.fillStyle = "#ffff00";
+    ctx.font = "bold 32px monospace";
     ctx.textAlign = "center";
-    ctx.fillText("NES EMULATOR", canvas.width / 2, canvas.height / 2 - 20);
+    ctx.strokeStyle = "#ff00ff";
+    ctx.lineWidth = 2;
+    ctx.fillText("ARCADE", canvas.width / 2, canvas.height / 2 - 20);
+    ctx.strokeText("ARCADE", canvas.width / 2, canvas.height / 2 - 20);
 
-    ctx.fillStyle = "#0088ff";
-    ctx.font = "16px monospace";
+    ctx.fillStyle = "#00ffff";
+    ctx.font = "18px monospace";
     ctx.fillText(
       "Sélectionnez un jeu →",
       canvas.width / 2,
-      canvas.height / 2 + 20
+      canvas.height / 2 + 30
     );
+  }
+
+  function drawArcadeBackground(ctx) {
+    // Fond coloré animé
+    const gradient = ctx.createRadialGradient(
+      canvas.width / 2,
+      canvas.height / 2,
+      0,
+      canvas.width / 2,
+      canvas.height / 2,
+      Math.max(canvas.width, canvas.height) / 2
+    );
+    gradient.addColorStop(0, "#ff00ff");
+    gradient.addColorStop(0.5, "#ffff00");
+    gradient.addColorStop(1, "#00ffff");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Effet de grille
+    ctx.strokeStyle = "rgba(255,255,255,0.1)";
+    ctx.lineWidth = 1;
+
+    for (let x = 0; x < canvas.width; x += 20) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+
+    for (let y = 0; y < canvas.height; y += 20) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
   }
 
   function setupGameLibrary() {
@@ -382,7 +528,7 @@
   }
 
   function loadGame(gameUrl, gameName) {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("arcadeScreen");
     const container = canvas.parentElement;
 
     // Supprimer l'ancien iframe s'il existe
@@ -418,7 +564,7 @@
   }
 
   function togglePower() {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("arcadeScreen");
     const container = canvas.parentElement;
 
     if (gameFrame) {
@@ -461,60 +607,3 @@
 `;
   document.head.appendChild(style);
 </script>
-
-<style>
-  .game-selector {
-    margin-bottom: 20px;
-  }
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
-  }
-  .game-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 12px;
-    background: var(--tile);
-    border: 2px solid #000;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .game-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0 #000;
-  }
-  .game-btn.active {
-    background: var(--neon);
-    color: #000;
-  }
-  .game-icon {
-    font-size: 24px;
-    margin-bottom: 4px;
-  }
-  .game-name {
-    font-size: 12px;
-    font-weight: bold;
-  }
-  .game-area {
-    text-align: center;
-    margin: 20px 0;
-  }
-  .game-controls {
-    margin-top: 10px;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .instructions {
-    margin-top: 20px;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-  }
-</style>
-
-<script type="module" src="/public/emulators/nes.js"></script>

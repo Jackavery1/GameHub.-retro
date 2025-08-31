@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test EmulatorJS</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #1a1a1a;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+
+      .emulator-container {
+        width: 800px;
+        height: 600px;
+        margin: 20px auto;
+        border: 2px solid #00ff00;
+        background: #000;
+      }
+
+      .controls {
+        text-align: center;
+        margin: 20px;
+      }
+
+      .controls button {
+        margin: 10px;
+        padding: 10px 20px;
+        background: #333;
+        color: white;
+        border: 1px solid #666;
+        cursor: pointer;
+      }
+
+      .controls button:hover {
+        background: #555;
+      }
+
+      .rom-input {
+        margin: 20px;
+        text-align: center;
+      }
+
+      .rom-input input[type="file"] {
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎮 Test EmulatorJS</h1>
+
+    <div class="rom-input">
+      <h3>Charger une ROM :</h3>
+      <input
+        type="file"
+        id="romFile"
+        accept=".nes,.smc,.gb,.gbc,.gba,.md,.gen,.sms,.gg"
+      />
+      <button onclick="loadROM()">Charger</button>
+    </div>
+
+    <div class="controls">
+      <button onclick="startNESDemo()">Demo NES</button>
+      <button onclick="startSNESDemo()">Demo SNES</button>
+      <button onclick="startGBDemo()">Demo Game Boy</button>
+      <button onclick="pauseEmulator()">Pause</button>
+      <button onclick="resumeEmulator()">Resume</button>
+      <button onclick="resetEmulator()">Reset</button>
+    </div>
+
+    <div id="game" class="emulator-container"></div>
+
+    <script>
+      // Configuration EmulatorJS
+      window.EJS_player = "#game";
+      window.EJS_gameUrl = ""; // Sera défini dynamiquement
+      window.EJS_core = ""; // Sera défini dynamiquement
+      window.EJS_pathtodata = "/emulatorjs/data/";
+      window.EJS_startOnLoaded = true;
+      window.EJS_biosUrl = "";
+      window.EJS_gameID = 1;
+
+      // Variables globales
+      let emulator = null;
+
+      // Fonction pour charger une ROM depuis un fichier
+      function loadROM() {
+        const fileInput = document.getElementById("romFile");
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert("Veuillez sélectionner une ROM");
+          return;
+        }
+
+        // Déterminer le core basé sur l'extension
+        const extension = file.name.split(".").pop().toLowerCase();
+        let core = "";
+
+        switch (extension) {
+          case "nes":
+            core = "nestopia";
+            break;
+          case "smc":
+          case "sfc":
+            core = "snes9x";
+            break;
+          case "gb":
+          case "gbc":
+            core = "gambatte";
+            break;
+          case "gba":
+            core = "mgba";
+            break;
+          case "md":
+          case "gen":
+            core = "genesis_plus_gx";
+            break;
+          case "sms":
+          case "gg":
+            core = "genesis_plus_gx";
+            break;
+          default:
+            alert("Format de ROM non supporté: " + extension);
+            return;
+        }
+
+        // Créer une URL pour le fichier
+        const romUrl = URL.createObjectURL(file);
+
+        // Configurer et lancer l'émulateur
+        window.EJS_gameUrl = romUrl;
+        window.EJS_core = core;
+
+        loadEmulator();
+      }
+
+      // Fonctions de démonstration avec des ROMs de test
+      function startNESDemo() {
+        window.EJS_core = "nestopia";
+        window.EJS_gameUrl =
+          "https://archive.org/download/msdos_Super_Mario_Bros_1985/Super%20Mario%20Bros.%20%281985%29%28Nintendo%29.zip";
+        loadEmulator();
+      }
+
+      function startSNESDemo() {
+        window.EJS_core = "snes9x";
+        window.EJS_gameUrl =
+          "https://archive.org/download/SuperMarioWorld_201703/Super%20Mario%20World%20%28USA%29.sfc";
+        loadEmulator();
+      }
+
+      function startGBDemo() {
+        window.EJS_core = "gambatte";
+        window.EJS_gameUrl =
+          "https://archive.org/download/gb_Tetris_1989/Tetris%20%28World%29%20%28Rev%201%29.gb";
+        loadEmulator();
+      }
+
+      // Charger l'émulateur
+      function loadEmulator() {
+        // Nettoyer l'ancien émulateur
+        const gameContainer = document.getElementById("game");
+        gameContainer.innerHTML = "";
+
+        // Charger le script EmulatorJS
+        const script = document.createElement("script");
+        script.src = "/emulatorjs/data/loader.js";
+        script.onload = function () {
+          console.log("EmulatorJS chargé");
+        };
+        script.onerror = function () {
+          console.error("Erreur lors du chargement d'EmulatorJS");
+          alert("Erreur lors du chargement de l'émulateur");
+        };
+
+        document.head.appendChild(script);
+      }
+
+      // Contrôles de l'émulateur
+      function pauseEmulator() {
+        if (window.EJS_emulator) {
+          window.EJS_emulator.pause();
+        }
+      }
+
+      function resumeEmulator() {
+        if (window.EJS_emulator) {
+          window.EJS_emulator.resume();
+        }
+      }
+
+      function resetEmulator() {
+        if (window.EJS_emulator) {
+          window.EJS_emulator.restart();
+        }
+      }
+
+      // Messages de debug
+      console.log("Page de test EmulatorJS chargée");
+      console.log("Chemin des données:", window.EJS_pathtodata);
+    </script>
+  </body>
+</html>

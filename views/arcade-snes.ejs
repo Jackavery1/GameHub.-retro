@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SNES - GameHub Retro</title>
+    <link rel="stylesheet" href="/public/styles.css" />
+    <style>
+      .game-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      .game-card {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border: 2px solid #e74c3c;
+      }
+      .game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+      }
+      .game-card img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+      .game-card h3 {
+        color: #ecf0f1;
+        margin: 0 0 10px 0;
+        font-size: 16px;
+      }
+      .game-card p {
+        color: #bdc3c7;
+        font-size: 12px;
+        margin: 0;
+      }
+      .emulator-container {
+        background: #1a1a1a;
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 20px;
+        border: 3px solid #e74c3c;
+      }
+      .canvas-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      #snesCanvas {
+        border: 2px solid #e74c3c;
+        border-radius: 10px;
+        background: #000;
+      }
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .control-btn {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+      .control-btn:hover {
+        background: linear-gradient(135deg, #c0392b, #a93226);
+        transform: translateY(-2px);
+      }
+      .instructions {
+        background: rgba(231, 76, 60, 0.1);
+        border: 1px solid #e74c3c;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+      }
+      .instructions h3 {
+        color: #e74c3c;
+        margin-top: 0;
+      }
+      .instructions ul {
+        color: #ecf0f1;
+        margin: 10px 0;
+        padding-left: 20px;
+      }
+      .instructions li {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('partials/head') %> <%- include('partials/header') %>
+
+    <div class="container">
+      <h1>🎮 Super Nintendo</h1>
+      <p class="subtitle">Les classiques 16-bit !</p>
+
+      <div class="game-grid">
+        <div class="game-card" onclick="loadGame('marioworld')">
+          <img
+            src="https://via.placeholder.com/200x120/e74c3c/ffffff?text=Mario+World"
+            alt="Super Mario World"
+          />
+          <h3>Super Mario World</h3>
+          <p>Mario en 16-bit</p>
+        </div>
+        <div class="game-card" onclick="loadGame('donkeykong')">
+          <img
+            src="https://via.placeholder.com/200x120/f39c12/ffffff?text=Donkey+Kong"
+            alt="Donkey Kong Country"
+          />
+          <h3>Donkey Kong Country</h3>
+          <p>Aventure simiesque</p>
+        </div>
+        <div class="game-card" onclick="loadGame('zelda')">
+          <img
+            src="https://via.placeholder.com/200x120/3498db/ffffff?text=Zelda"
+            alt="A Link to the Past"
+          />
+          <h3>A Link to the Past</h3>
+          <p>Zelda en 2D</p>
+        </div>
+        <div class="game-card" onclick="loadGame('metroid')">
+          <img
+            src="https://via.placeholder.com/200x120/9b59b6/ffffff?text=Metroid"
+            alt="Super Metroid"
+          />
+          <h3>Super Metroid</h3>
+          <p>Metroidvania</p>
+        </div>
+        <div class="game-card" onclick="loadGame('streetfighter')">
+          <img
+            src="https://via.placeholder.com/200x120/e67e22/ffffff?text=Street+Fighter"
+            alt="Street Fighter II"
+          />
+          <h3>Street Fighter II</h3>
+          <p>Combat légendaire</p>
+        </div>
+        <div class="game-card" onclick="loadGame('mariokart')">
+          <img
+            src="https://via.placeholder.com/200x120/1abc9c/ffffff?text=Mario+Kart"
+            alt="Super Mario Kart"
+          />
+          <h3>Super Mario Kart</h3>
+          <p>Course endiablée</p>
+        </div>
+      </div>
+
+      <div class="emulator-container">
+        <div class="canvas-container">
+          <canvas id="snesCanvas" width="320" height="240"></canvas>
+        </div>
+
+        <div class="controls">
+          <button class="control-btn" onclick="emulator.start()">
+            ▶️ Démarrer
+          </button>
+          <button class="control-btn" onclick="emulator.pause()">
+            ⏸️ Pause
+          </button>
+          <button class="control-btn" onclick="emulator.resume()">
+            ▶️ Reprendre
+          </button>
+          <button class="control-btn" onclick="emulator.reset()">
+            🔄 Reset
+          </button>
+          <button class="control-btn" onclick="emulator.saveState()">
+            💾 Sauvegarder
+          </button>
+          <button class="control-btn" onclick="emulator.loadState()">
+            📂 Charger
+          </button>
+        </div>
+
+        <div class="instructions">
+          <h3>🎮 Contrôles SNES</h3>
+          <ul>
+            <li><strong>D-Pad :</strong> Déplacement</li>
+            <li><strong>Z :</strong> Bouton A</li>
+            <li><strong>X :</strong> Bouton B</li>
+            <li><strong>C :</strong> Bouton X</li>
+            <li><strong>V :</strong> Bouton Y</li>
+            <li><strong>Entrée :</strong> Start</li>
+            <li><strong>Espace :</strong> Pause/Reprendre</li>
+            <li><strong>R :</strong> Reset</li>
+            <li><strong>S :</strong> Sauvegarder</li>
+            <li><strong>L :</strong> Charger</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="/public/emulators/snes.js"></script>
+    <script>
+      let emulator;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        emulator = new SNESEmulator();
+        emulator.init();
+      });
+
+      function loadGame(gameId) {
+        if (emulator) {
+          emulator.loadGame(gameId);
+        }
+      }
+    </script>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

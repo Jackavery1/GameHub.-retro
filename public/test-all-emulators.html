@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Complet des Émulateurs</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        color: white;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+      }
+
+      .test-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        color: #00f7ff;
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+      }
+
+      .test-section {
+        background: rgba(52, 73, 94, 0.8);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .test-section h2 {
+        color: #e74c3c;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #e74c3c;
+        padding-bottom: 10px;
+      }
+
+      .status-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+      }
+
+      .status-card {
+        background: rgba(44, 62, 80, 0.9);
+        border-radius: 10px;
+        padding: 15px;
+        border-left: 4px solid #3498db;
+      }
+
+      .status-card.working {
+        border-left-color: #27ae60;
+      }
+
+      .status-card.partial {
+        border-left-color: #f39c12;
+      }
+
+      .status-card.error {
+        border-left-color: #e74c3c;
+      }
+
+      .status-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .status-icon {
+        font-size: 24px;
+        margin-right: 10px;
+      }
+
+      .status-title {
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .status-description {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 10px;
+      }
+
+      .test-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .test-btn {
+        background: linear-gradient(145deg, #3498db, #2980b9);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .test-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .test-btn.working {
+        background: linear-gradient(145deg, #27ae60, #229954);
+      }
+
+      .test-btn.partial {
+        background: linear-gradient(145deg, #f39c12, #e67e22);
+      }
+
+      .test-btn.error {
+        background: linear-gradient(145deg, #e74c3c, #c0392b);
+      }
+
+      .summary {
+        background: rgba(26, 26, 46, 0.9);
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .summary-stats {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 20px;
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .stat-number.working {
+        color: #27ae60;
+      }
+
+      .stat-number.partial {
+        color: #f39c12;
+      }
+
+      .stat-number.error {
+        color: #e74c3c;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .recommendations {
+        background: rgba(155, 89, 182, 0.1);
+        border: 1px solid #9b59b6;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+      }
+
+      .recommendations h3 {
+        color: #9b59b6;
+        margin-bottom: 10px;
+      }
+
+      .recommendations ul {
+        margin: 10px 0;
+        padding-left: 20px;
+      }
+
+      .recommendations li {
+        margin-bottom: 5px;
+      }
+
+      @media (max-width: 768px) {
+        .summary-stats {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .test-buttons {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test-container">
+      <h1>🎮 Test Complet des Émulateurs GameHub Retro</h1>
+
+      <div class="summary">
+        <h2>📊 Résumé des Tests</h2>
+        <p>État actuel de l'intégration des émulateurs</p>
+        <div class="summary-stats">
+          <div class="stat">
+            <div class="stat-number working" id="workingCount">0</div>
+            <div class="stat-label">Fonctionnels</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number partial" id="partialCount">0</div>
+            <div class="stat-label">En Test</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number error" id="errorCount">0</div>
+            <div class="stat-label">Non Fonctionnels</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h2>🕹️ Émulateurs avec Design CRT</h2>
+        <div class="status-grid">
+          <div class="status-card working">
+            <div class="status-header">
+              <span class="status-icon">💻</span>
+              <span class="status-title">MS-DOS</span>
+            </div>
+            <div class="status-description">
+              Internet Archive intégré avec design CRT authentique
+            </div>
+            <div class="test-buttons">
+              <a href="/arcade/dos" class="test-btn working"
+                >Version Classique</a
+              >
+              <a href="/arcade/dos-crt" class="test-btn working">Version CRT</a>
+            </div>
+          </div>
+
+          <div class="status-card partial">
+            <div class="status-header">
+              <span class="status-icon">🎮</span>
+              <span class="status-title">NES</span>
+            </div>
+            <div class="status-description">
+              EmulatorJS intégré avec design CRT, ROMs de test disponibles
+            </div>
+            <div class="test-buttons">
+              <a href="/arcade/nes" class="test-btn partial"
+                >Version Internet Archive</a
+              >
+              <a href="/arcade/nes-functional" class="test-btn partial"
+                >Version EmulatorJS</a
+              >
+            </div>
+          </div>
+
+          <div class="status-card partial">
+            <div class="status-header">
+              <span class="status-icon">🎯</span>
+              <span class="status-title">SNES</span>
+            </div>
+            <div class="status-description">
+              EmulatorJS intégré avec design CRT, prêt pour les tests
+            </div>
+            <div class="test-buttons">
+              <a href="/arcade/snes" class="test-btn partial"
+                >Version Internet Archive</a
+              >
+              <a href="/arcade/snes-functional" class="test-btn partial"
+                >Version EmulatorJS</a
+              >
+            </div>
+          </div>
+
+          <div class="status-card partial">
+            <div class="status-header">
+              <span class="status-icon">🎲</span>
+              <span class="status-title">Game Boy</span>
+            </div>
+            <div class="status-description">
+              EmulatorJS intégré avec design CRT monochrome authentique
+            </div>
+            <div class="test-buttons">
+              <a href="/arcade/gb" class="test-btn partial"
+                >Version Internet Archive</a
+              >
+              <a href="/arcade/gb-functional" class="test-btn partial"
+                >Version EmulatorJS</a
+              >
+            </div>
+          </div>
+
+          <div class="status-card partial">
+            <div class="status-header">
+              <span class="status-icon">🎪</span>
+              <span class="status-title">Genesis</span>
+            </div>
+            <div class="status-description">
+              Design CRT disponible, EmulatorJS en cours d'intégration
+            </div>
+            <div class="test-buttons">
+              <a href="/arcade/genesis" class="test-btn partial"
+                >Version Internet Archive</a
+              >
+            </div>
+          </div>
+
+          <div class="status-card partial">
+            <div class="status-header">
+              <span class="status-icon">🎰</span>
+              <span class="status-title">Arcade</span>
+            </div>
+            <div class="status-description">
+              Design CRT psychédélique, jeux Internet Archive intégrés
+            </div>
+            <div class="test-buttons">
+              <a href="/arcade/arcade" class="test-btn partial"
+                >Version Internet Archive</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h2>🧪 Pages de Test et Développement</h2>
+        <div class="status-grid">
+          <div class="status-card working">
+            <div class="status-header">
+              <span class="status-icon">🔧</span>
+              <span class="status-title">Test EmulatorJS</span>
+            </div>
+            <div class="status-description">
+              Interface de test direct pour EmulatorJS avec chargement de ROMs
+            </div>
+            <div class="test-buttons">
+              <a href="/test-emulator.html" class="test-btn working">Tester</a>
+            </div>
+          </div>
+
+          <div class="status-card working">
+            <div class="status-header">
+              <span class="status-icon">ℹ️</span>
+              <span class="status-title">Guide RetroArch</span>
+            </div>
+            <div class="status-description">
+              Documentation complète sur l'utilisation des émulateurs
+            </div>
+            <div class="test-buttons">
+              <a href="/retroarch-info" class="test-btn working">Consulter</a>
+            </div>
+          </div>
+
+          <div class="status-card working">
+            <div class="status-header">
+              <span class="status-icon">📋</span>
+              <span class="status-title">Test Complet</span>
+            </div>
+            <div class="status-description">
+              Cette page - Vue d'ensemble de tous les émulateurs
+            </div>
+            <div class="test-buttons">
+              <span class="test-btn working">Page Actuelle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recommendations">
+        <h3>💡 Recommandations pour les Tests</h3>
+        <ul>
+          <li>
+            <strong>MS-DOS</strong> : Testez la version CRT pour l'expérience
+            complète
+          </li>
+          <li>
+            <strong>NES</strong> : Utilisez la version fonctionnelle avec vos
+            ROMs .nes
+          </li>
+          <li>
+            <strong>SNES/Game Boy</strong> : Testez les versions EmulatorJS avec
+            des ROMs homebrew
+          </li>
+          <li>
+            <strong>ROMs légales</strong> : Utilisez vos propres ROMs ou des
+            homebrew libres
+          </li>
+          <li>
+            <strong>Performance</strong> : Testez sur différents navigateurs
+            (Chrome recommandé)
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // Compter les statuts
+      document.addEventListener("DOMContentLoaded", () => {
+        const workingCards = document.querySelectorAll(".status-card.working");
+        const partialCards = document.querySelectorAll(".status-card.partial");
+        const errorCards = document.querySelectorAll(".status-card.error");
+
+        document.getElementById("workingCount").textContent =
+          workingCards.length;
+        document.getElementById("partialCount").textContent =
+          partialCards.length;
+        document.getElementById("errorCount").textContent = errorCards.length;
+
+        console.log("📊 Test des émulateurs:");
+        console.log(`✅ Fonctionnels: ${workingCards.length}`);
+        console.log(`🔶 En test: ${partialCards.length}`);
+        console.log(`❌ Non fonctionnels: ${errorCards.length}`);
+      });
+    </script>
+  </body>
+</html>

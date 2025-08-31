@@ -1,10 +1,10 @@
 <div class="crt-container">
-  <div class="crt-tv">
-    <div class="crt-screen">
+  <div class="crt-tv genesis-tv">
+    <div class="crt-screen genesis-screen">
       <div class="crt-bezel">
-        <canvas id="nesScreen" width="256" height="240"></canvas>
-        <div class="crt-scanlines"></div>
-        <div class="crt-glow"></div>
+        <canvas id="genesisScreen" width="320" height="224"></canvas>
+        <div class="crt-scanlines genesis-scanlines"></div>
+        <div class="crt-glow genesis-glow"></div>
       </div>
     </div>
 
@@ -15,73 +15,73 @@
     </div>
   </div>
 
-  <div class="game-library">
+  <div class="game-library genesis-library">
     <div class="library-header">🎮</div>
     <div class="game-grid">
-      <!-- Jeux Internet Archive -->
+      <!-- Jeux Sega Genesis Internet Archive -->
       <div
-        class="game-cartridge"
-        data-game="mario"
-        data-url="https://archive.org/embed/msdos_Super_Mario_Bros_1985"
+        class="game-cartridge genesis-cart"
+        data-game="sonic"
+        data-url="https://archive.org/embed/genesis_Sonic_the_Hedgehog_1991"
       >
         <div class="cart-label">
-          <div class="cart-icon">🍄</div>
-          <div class="cart-title">Mario</div>
+          <div class="cart-icon">💙</div>
+          <div class="cart-title">Sonic</div>
         </div>
       </div>
 
       <div
-        class="game-cartridge"
-        data-game="zelda"
-        data-url="https://archive.org/embed/zeldanes"
+        class="game-cartridge genesis-cart"
+        data-game="streets-of-rage"
+        data-url="https://archive.org/embed/genesis_Streets_of_Rage_1991"
+      >
+        <div class="cart-label">
+          <div class="cart-icon">👊</div>
+          <div class="cart-title">Streets</div>
+        </div>
+      </div>
+
+      <div
+        class="game-cartridge genesis-cart"
+        data-game="golden-axe"
+        data-url="https://archive.org/embed/genesis_Golden_Axe_1989"
       >
         <div class="cart-label">
           <div class="cart-icon">⚔️</div>
-          <div class="cart-title">Zelda</div>
+          <div class="cart-title">G.Axe</div>
         </div>
       </div>
 
       <div
-        class="game-cartridge"
-        data-game="metroid"
-        data-url="https://archive.org/embed/metroidnes"
+        class="game-cartridge genesis-cart"
+        data-game="altered-beast"
+        data-url="https://archive.org/embed/genesis_Altered_Beast_1988"
       >
         <div class="cart-label">
-          <div class="cart-icon">🚀</div>
-          <div class="cart-title">Metroid</div>
+          <div class="cart-icon">🐺</div>
+          <div class="cart-title">A.Beast</div>
         </div>
       </div>
 
       <div
-        class="game-cartridge"
-        data-game="megaman"
-        data-url="https://archive.org/embed/megamannes"
+        class="game-cartridge genesis-cart"
+        data-game="phantasy-star"
+        data-url="https://archive.org/embed/genesis_Phantasy_Star_IV_1993"
       >
         <div class="cart-label">
-          <div class="cart-icon">🤖</div>
-          <div class="cart-title">MegaMan</div>
+          <div class="cart-icon">⭐</div>
+          <div class="cart-title">P.Star</div>
         </div>
       </div>
 
       <div
-        class="game-cartridge"
-        data-game="duckhunt"
-        data-url="https://archive.org/embed/duckhuntnes"
+        class="game-cartridge genesis-cart"
+        data-game="shinobi"
+        data-url="https://archive.org/embed/genesis_Shinobi_III_1993"
       >
         <div class="cart-label">
-          <div class="cart-icon">🦆</div>
-          <div class="cart-title">Duck Hunt</div>
-        </div>
-      </div>
-
-      <div
-        class="game-cartridge"
-        data-game="tetris"
-        data-url="https://archive.org/embed/tetrisnes"
-      >
-        <div class="cart-label">
-          <div class="cart-icon">🧩</div>
-          <div class="cart-title">Tetris</div>
+          <div class="cart-icon">🥷</div>
+          <div class="cart-title">Shinobi</div>
         </div>
       </div>
     </div>
@@ -94,25 +94,80 @@
     gap: 40px;
     padding: 20px;
     min-height: 80vh;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
   }
 
+  .genesis-tv {
+    background: linear-gradient(145deg, #34495e, #2c3e50);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  }
+
+  .genesis-screen {
+    background: #000;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(52, 152, 219, 0.4);
+  }
+
+  .genesis-glow {
+    background: radial-gradient(
+      circle at center,
+      rgba(52, 152, 219, 0.2) 0%,
+      transparent 70%
+    );
+  }
+
+  #genesisScreen {
+    width: 640px;
+    height: 448px;
+    image-rendering: pixelated;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #1e3c72, #3498db);
+    display: block;
+  }
+
+  .genesis-library {
+    background: linear-gradient(145deg, #34495e, #2c3e50);
+  }
+
+  .genesis-cart {
+    background: linear-gradient(145deg, #3498db, #2980b9);
+  }
+
+  .genesis-cart::before {
+    background: linear-gradient(90deg, #3498db, #2980b9, #e74c3c, #f39c12);
+  }
+
+  .genesis-cart:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(52, 152, 219, 0.4);
+  }
+
+  .genesis-cart.active {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 30px rgba(52, 152, 219, 0.6);
+  }
+
+  .genesis-scanlines {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(52, 152, 219, 0.05) 2px,
+      rgba(52, 152, 219, 0.05) 4px
+    );
+  }
+
+  /* Styles communs réutilisés */
   .crt-tv {
     position: relative;
-    background: linear-gradient(145deg, #2c3e50, #34495e);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-      inset 0 2px 4px rgba(255, 255, 255, 0.1);
   }
 
   .crt-screen {
     position: relative;
-    background: #000;
     border-radius: 15px;
     padding: 20px;
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8),
-      0 0 20px rgba(0, 247, 255, 0.3);
   }
 
   .crt-bezel {
@@ -122,28 +177,12 @@
     overflow: hidden;
   }
 
-  #nesScreen {
-    width: 512px;
-    height: 480px;
-    image-rendering: pixelated;
-    border-radius: 8px;
-    background: linear-gradient(45deg, #001122, #002244);
-    display: block;
-  }
-
   .crt-scanlines {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 255, 0, 0.03) 2px,
-      rgba(0, 255, 0, 0.03) 4px
-    );
     pointer-events: none;
   }
 
@@ -153,11 +192,6 @@
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background: radial-gradient(
-      circle at center,
-      rgba(0, 247, 255, 0.1) 0%,
-      transparent 70%
-    );
     pointer-events: none;
     animation: crt-glow 3s ease-in-out infinite alternate;
   }
@@ -208,7 +242,6 @@
 
   .game-library {
     flex: 1;
-    background: linear-gradient(145deg, #2c3e50, #34495e);
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
@@ -229,7 +262,6 @@
   }
 
   .game-cartridge {
-    background: linear-gradient(145deg, #7f8c8d, #95a5a6);
     border-radius: 10px;
     padding: 15px;
     cursor: pointer;
@@ -242,7 +274,6 @@
 
   .game-cartridge:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 247, 255, 0.3);
   }
 
   .game-cartridge:active {
@@ -256,12 +287,11 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60, #3498db);
   }
 
   .cart-label {
     text-align: center;
-    color: #2c3e50;
+    color: white;
   }
 
   .cart-icon {
@@ -272,12 +302,6 @@
   .cart-title {
     font-size: 0.9em;
     font-weight: bold;
-  }
-
-  .game-cartridge.active {
-    background: linear-gradient(145deg, #3498db, #2980b9);
-    color: white;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 247, 255, 0.5);
   }
 
   .game-cartridge.active .cart-label {
@@ -291,9 +315,9 @@
       gap: 20px;
     }
 
-    #nesScreen {
+    #genesisScreen {
       width: 100%;
-      max-width: 512px;
+      max-width: 640px;
       height: auto;
     }
 
@@ -308,7 +332,7 @@
 </style>
 
 <script>
-  // Gestion des jeux
+  // Gestion des jeux Sega Genesis
   let currentGame = null;
   let gameFrame = null;
 
@@ -320,26 +344,44 @@
   });
 
   function initializeEmulator() {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("genesisScreen");
     const ctx = canvas.getContext("2d");
 
-    // Affichage de démarrage
-    ctx.fillStyle = "#001122";
+    // Affichage de démarrage Genesis
+    ctx.fillStyle = "#1e3c72";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Logo NES stylisé
-    ctx.fillStyle = "#00ff88";
-    ctx.font = "bold 24px monospace";
+    // Logo Sega Genesis stylisé
+    ctx.fillStyle = "#3498db";
+    ctx.font = "bold 28px monospace";
     ctx.textAlign = "center";
-    ctx.fillText("NES EMULATOR", canvas.width / 2, canvas.height / 2 - 20);
+    ctx.fillText("SEGA GENESIS", canvas.width / 2, canvas.height / 2 - 20);
 
-    ctx.fillStyle = "#0088ff";
+    ctx.fillStyle = "#e74c3c";
     ctx.font = "16px monospace";
     ctx.fillText(
       "Sélectionnez un jeu →",
       canvas.width / 2,
       canvas.height / 2 + 20
     );
+
+    // Effet de lignes Genesis
+    drawGenesisLines(ctx);
+  }
+
+  function drawGenesisLines(ctx) {
+    ctx.strokeStyle = "#3498db";
+    ctx.lineWidth = 2;
+    ctx.globalAlpha = 0.3;
+
+    for (let i = 0; i < 10; i++) {
+      ctx.beginPath();
+      ctx.moveTo(0, i * 30);
+      ctx.lineTo(canvas.width, i * 30 + 50);
+      ctx.stroke();
+    }
+
+    ctx.globalAlpha = 1;
   }
 
   function setupGameLibrary() {
@@ -382,7 +424,7 @@
   }
 
   function loadGame(gameUrl, gameName) {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("genesisScreen");
     const container = canvas.parentElement;
 
     // Supprimer l'ancien iframe s'il existe
@@ -418,7 +460,7 @@
   }
 
   function togglePower() {
-    const canvas = document.getElementById("nesScreen");
+    const canvas = document.getElementById("genesisScreen");
     const container = canvas.parentElement;
 
     if (gameFrame) {
@@ -461,60 +503,3 @@
 `;
   document.head.appendChild(style);
 </script>
-
-<style>
-  .game-selector {
-    margin-bottom: 20px;
-  }
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
-  }
-  .game-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 12px;
-    background: var(--tile);
-    border: 2px solid #000;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .game-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0 #000;
-  }
-  .game-btn.active {
-    background: var(--neon);
-    color: #000;
-  }
-  .game-icon {
-    font-size: 24px;
-    margin-bottom: 4px;
-  }
-  .game-name {
-    font-size: 12px;
-    font-weight: bold;
-  }
-  .game-area {
-    text-align: center;
-    margin: 20px 0;
-  }
-  .game-controls {
-    margin-top: 10px;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .instructions {
-    margin-top: 20px;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-  }
-</style>
-
-<script type="module" src="/public/emulators/nes.js"></script>

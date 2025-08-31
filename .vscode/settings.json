@@ -4,6 +4,6 @@
     "workbench.input.interactive": true
   },
   "chatgpt.config": {},
-  "chatgpt.openOnStartup": true,
+  "chatgpt.openOnStartup": false,
   "claudeCodeChat.permissions.yoloMode": true
 }
